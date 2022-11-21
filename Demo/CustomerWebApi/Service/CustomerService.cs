@@ -21,12 +21,7 @@ namespace CustomerWebApi.Service
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        Customer customer = new Customer
-                        {
-                            Id = reader.GetGuid(0),
-                            Name = reader.GetString(1),
-                            Email = reader.GetString(2)
-                        };
+                        Customer customer = new Customer(reader.GetGuid(0), reader.GetString(1),reader.GetString(2));
                         customerList.Add(customer);
 
                     }

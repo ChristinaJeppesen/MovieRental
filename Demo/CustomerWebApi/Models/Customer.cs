@@ -14,6 +14,12 @@ namespace CustomerWebApi.Models
 
         public string Email { get; set; }
 
+        public Customer(Guid _id, string _name, string _email) {
+            Id = _id;
+            Name = _name;
+            Email = _email;
+        }
+
     }
 }
 
