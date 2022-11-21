@@ -3,16 +3,16 @@
     //Customer WEB API
 
     {
-      "UpstreamPathTemplate": "/api/customer/customers",
+      "UpstreamPathTemplate": "/api/message/customers",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "customerwebapi",
+          "Host": "messageservice",
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/customer/customers"
+      "DownstreamPathTemplate": "/api/message/customers"
     },
 
     {
@@ -21,7 +21,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "customerwebapi",
+          "Host": "messageservice",
           "Port": 80
         }
       ],

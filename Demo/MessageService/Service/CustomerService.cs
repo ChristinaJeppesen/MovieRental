@@ -1,18 +1,21 @@
-﻿using MessageService.Models;
+﻿using System;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using MessageService.Models;
 using System.Text.Json;
 using System.Text;
-using RabbitMQ.Client.Events;
+using System.Text.RegularExpressions;
 
 namespace MessageService.Service
 {
-    public class Service : IMessageService
+    public class CustomerService : IMessageCustomer
     {
-        private readonly string OutQueueName = "movies";
-        private readonly string InQueueName = "results";
+
+        private readonly string OutQueueName = "customers";
+        private readonly string InQueueName = "results_customers";
         private readonly string RMQHostName = "rabbitmq";
-        
-        public void GetAllMovieList()
+
+        public void GetAllCustomers()
         {
             var factory = new ConnectionFactory()
             {
@@ -28,58 +31,18 @@ namespace MessageService.Service
                                      autoDelete: false,
                                      arguments: null);
 
-                var message = new Message(1, "movie", "results", "GetAllMovies", Tuple.Create("Title", "terminator"));
-          
-                Console.WriteLine(message);
-
+                var message = new Message(1, "customers", "results_customers", "GetAllCustomers");
+                
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
                 channel.BasicPublish(exchange: "",
-                                     routingKey: OutQueueName,
-                                     basicProperties: null,
-                                     body: body);
+                             routingKey: OutQueueName,
+                             basicProperties: null,
+                             body: body);
                 Console.WriteLine(" [x] Sent {0}", message);
+
             }
-
-            //var list = new List<string>();
-            //list.Add(("hej"));
-            //return list;
         }
-
-        public void GetFilteredMovieList(string filter, string match)
-        {
-            var factory = new ConnectionFactory()
-            {
-                HostName = RMQHostName
-            };
-
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(queue: OutQueueName,
-                                     durable: false,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
-
-                var message = new Message(1, "movie", "results", "SearchMovies", Tuple.Create(filter, match));
-               
-                Console.WriteLine(message);
-
-                var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
-
-                channel.BasicPublish(exchange: "",
-                                     routingKey: OutQueueName,
-                                     basicProperties: null,
-                                     body: body);
-                Console.WriteLine(" [x] Sent {0}", message);
-            }
-
-            //var list = new List<string>();
-            //list.Add(("hej"));
-            //return list;
-        }
-       
 
         public string GetResults()
         {
@@ -120,3 +83,4 @@ namespace MessageService.Service
         }
     }
 }
+

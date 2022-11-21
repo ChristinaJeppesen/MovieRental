@@ -12,8 +12,7 @@
     "TestSanity": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
-      "applicationUrl": "https://localhost:7145;http://localhost:5265",
+      "applicationUrl": "http://localhost:22796",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

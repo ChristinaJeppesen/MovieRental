@@ -33,6 +33,7 @@ namespace MovieService.Controller
 
             if (movieMessage.FunctionToExecute == "GetAllMovies")
             {
+                Console.WriteLine("Hello from the code");
                 list = _movieService.GetAllMovies(_config);
             }
             

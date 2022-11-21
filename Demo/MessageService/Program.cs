@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IMessageService, Service>();
+builder.Services.AddSingleton<IMessageCustomer, CustomerService>();
 
 builder.Services.AddControllers();
 

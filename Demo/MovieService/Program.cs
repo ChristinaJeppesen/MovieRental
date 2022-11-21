@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 string dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 string user = Environment.GetEnvironmentVariable("POSTGRES_USER");
-string dbName = Environment.GetEnvironmentVariable("POSTGRES_DB");
+string dbName = "MovieDB";
 string dbPassword = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
 string port = "5432";
 
