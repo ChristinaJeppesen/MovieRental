@@ -1,0 +1,86 @@
+﻿{
+  "Routes": [
+    //Customer WEB API
+
+    {
+      "UpstreamPathTemplate": "/api/customer/customers",
+      "UpstreamHttpMethods": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "customerwebapi",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/customer/customers"
+    },
+
+    {
+      "UpstreamPathTemplate": "/api/customer/{customer_id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "customerwebapi",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/customer/{customer_id}"
+    },
+
+
+
+
+    // Next Service can be added below
+    {
+      "UpstreamPathTemplate": "/api/message/movies",
+      "UpstreamHttpMethods": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messageservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/message/movies"
+    },
+    {
+      "UpstreamPathTemplate": "/api/message/movies/{filter}/{match}",
+      "UpstreamHttpMethods": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messageservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/message/movies/{filter}/{match}"
+    },
+
+    // Next Service can be added below
+
+
+
+
+
+    {
+      "UpstreamPathTemplate": "/api/test",
+      "UpstreamHttpMethods": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "testsanity",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/test"
+    }
+
+
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:8001",
+    "RequestIdKey": "OcRequestId"
+  }
+
+}

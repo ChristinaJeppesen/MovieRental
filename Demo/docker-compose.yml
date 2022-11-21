@@ -1,0 +1,83 @@
+version: '3.4'
+
+services:
+  customerwebapi:
+    container_name: customer-api
+    image: ${DOCKER_REGISTRY-}customerwebapi
+    build:
+      context: .
+      dockerfile: CustomerWebApi/Dockerfile
+
+  db:
+    container_name: movie-db
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=dvdrental
+      - DB_HOST=localhost
+
+    ports:
+      - '5432:5432'
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+
+  apigateway:
+    container_name: apigateway 
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - 8001:80
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+     - "RABBITMQ_DEFAULT_PASS=guest"
+     - "RABBITMQ_DEFAULT_USER=guest"
+
+  messageservice:
+    container_name: messageservice
+    image: ${DOCKER_REGISTRY-}messageservice
+    build:
+      context: .
+      dockerfile: MessageService/Dockerfile
+
+  testsanity:
+    container_name: testsanity
+    image: ${DOCKER_REGISTRY-}testsanity
+    build:
+      context: .
+      dockerfile: TestSanity/Dockerfile
+
+  movieservice:
+    container_name: movieservice
+    image: ${DOCKER_REGISTRY-}movieservice
+    build:
+      context: .
+      dockerfile: MovieService/Dockerfile
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    links: 
+        - rabbitmq
+
+volumes:
+  pgdata:
+
+
+  
+
+
+
+
+
+
+
+
