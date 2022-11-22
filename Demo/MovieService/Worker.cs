@@ -20,8 +20,7 @@ namespace MovieService
     {
         private readonly ILogger<Worker> _logger;
         private readonly MovieController _movieController;
-        private const string InQueueName = "movies";
-        private const string OutQueueName = "results";
+        private const string ListenQueueName = "movies";
 
         public Worker(ILogger<Worker> logger, MovieController movieController)
         {
@@ -31,7 +30,7 @@ namespace MovieService
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation($"Queue [{InQueueName}] is waiting for messages.");
+            _logger.LogInformation($"Queue [{ListenQueueName}] is waiting for messages.");
             System.Threading.Thread.Sleep(30000);
             var factory = new ConnectionFactory { HostName = "rabbitmq" };
             factory.UserName = "guest";
@@ -41,14 +40,11 @@ namespace MovieService
             var outChannel = connection.CreateModel();
 
             inChannel.BasicQos(0, 1, false);
+            
+            //outChannel.BasicQos(0, 1, false); // dosent seem to make diff
 
-            inChannel.QueueDeclare(queue: InQueueName,
-                                   durable: false, // true if sender's durable is true!!!
-                                   exclusive: false,
-                                   autoDelete: false,
-                                   arguments: null);
 
-            inChannel.QueueDeclare(queue: OutQueueName,
+            inChannel.QueueDeclare(queue: ListenQueueName,
                                    durable: false, // true if sender's durable is true!!!
                                    exclusive: false,
                                    autoDelete: false,
@@ -62,14 +58,19 @@ namespace MovieService
 
                 // publish result on outChannel and keep listening for more messages
                 var outMessage = _movieController.MessageRecieved(inMessage);
-                var outBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(outMessage));
-                Console.WriteLine(outBody.ToString());
-                outChannel.BasicPublish(exchange: "", routingKey: OutQueueName, basicProperties: null, body: outBody);
+                var outBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(outMessage.Item2));
+               
+                //outChannel.QueueDeclare(queue: outMessage.Item1, // dosent seem to make diff??
+                //                   durable: false, // true if sender's durable is true!!!
+                //                   exclusive: false,
+                //                   autoDelete: false,
+                //                   arguments: null);
+                outChannel.BasicPublish(exchange: "", routingKey: outMessage.Item1, basicProperties: null, body: outBody);
 
                 inChannel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
 
-            inChannel.BasicConsume(queue: InQueueName,
+            inChannel.BasicConsume(queue: ListenQueueName,
                                     autoAck: false,
                                     consumer: consumer);
 

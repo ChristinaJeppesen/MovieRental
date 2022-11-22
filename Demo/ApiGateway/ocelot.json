@@ -45,7 +45,7 @@
       "DownstreamPathTemplate": "/api/message/movies"
     },
     {
-      "UpstreamPathTemplate": "/api/message/movies/{filter}/{match}",
+      "UpstreamPathTemplate": "/api/message/movies/{pattern}",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -54,7 +54,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/movies/{filter}/{match}"
+      "DownstreamPathTemplate": "/api/message/movies/{pattern}"
     },
 
     // Next Service can be added below

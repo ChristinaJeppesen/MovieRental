@@ -23,7 +23,7 @@ namespace MovieService.Service
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        Movie movie = new Movie
+                        Movie movie = new()
                         {
                             Id = reader.GetInt32(0),
                             Title = reader.GetString(1),
@@ -43,7 +43,7 @@ namespace MovieService.Service
         }
 
         
-        public List<Movie> SearchMovies(IConfiguration config, string item1, string item2)
+        public List<Movie> SearchMovies(IConfiguration config, string pattern)
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
@@ -55,12 +55,14 @@ namespace MovieService.Service
                 Console.Out.WriteLine("   - Opening connection");
                 conn.Open();
 
-                using (var command = new NpgsqlCommand($"SELECT movie_id,title,description,release_year,duration,rating,price FROM movie JOIN movie_price ON movie.price_id=movie_price.price_id WHERE LOWER({item1}) LIKE LOWER('%{item2}%')", conn))
+                string whereClause = $"WHERE title LIKE LOWER('%{pattern}%') OR description LIKE LOWER('%{pattern}%')"; // we can only search by title or description 
+
+                using (var command = new NpgsqlCommand($"SELECT movie_id,title,description,release_year,duration,rating,price FROM movie JOIN movie_price ON movie.price_id=movie_price.price_id {whereClause} ", conn))
                 {
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        Movie movie = new Movie
+                        Movie movie = new()
                         {
                             Id = reader.GetInt32(0),
                             Title = reader.GetString(1),

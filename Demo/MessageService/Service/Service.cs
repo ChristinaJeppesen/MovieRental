@@ -8,8 +8,8 @@ namespace MessageService.Service
 {
     public class Service : IMessageService
     {
-        private readonly string OutQueueName = "movies";
-        private readonly string InQueueName = "results";
+        private readonly string MessagePublishQueueName = "movies";
+        private readonly string MessageListenQueueName = "results";
         private readonly string RMQHostName = "rabbitmq";
         
         public void GetAllMovieList()
@@ -22,7 +22,7 @@ namespace MessageService.Service
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: OutQueueName,
+                channel.QueueDeclare(queue: MessagePublishQueueName,
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -30,33 +30,26 @@ namespace MessageService.Service
 
                 var message = new Message
                 {
-                    Id = 1,
-                    InQueueName = "movie",
-                    OutQueueName = "results",
+                    Id = 1, // this ID should come from ocelot if needed
+                    ListenQueueName = "movies",
+                    PublishQueueName = "results",
                     FunctionToExecute = "GetAllMovies",
-                    //FunctionToExecute = "SearchMovies",
-                    Columns = Tuple.Create("Title", "terminator")
+                    Pattern = ""
                 };
-
-
 
                 Console.WriteLine(message);
 
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
                 channel.BasicPublish(exchange: "",
-                                     routingKey: OutQueueName,
+                                     routingKey: MessagePublishQueueName,
                                      basicProperties: null,
                                      body: body);
                 Console.WriteLine(" [x] Sent {0}", message);
             }
-
-            //var list = new List<string>();
-            //list.Add(("hej"));
-            //return list;
         }
 
-        public void GetFilteredMovieList(string filter, string match)
+        public void GetFilteredMovieList(string pattern)
         {
             var factory = new ConnectionFactory()
             {
@@ -66,7 +59,7 @@ namespace MessageService.Service
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: OutQueueName,
+                channel.QueueDeclare(queue: MessagePublishQueueName,
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -75,11 +68,10 @@ namespace MessageService.Service
                 var message = new Message
                 {
                     Id = 1,
-                    InQueueName = "movie",
-                    OutQueueName = "results",
-                    //FunctionToExecute = "GetAllMovies",
+                    ListenQueueName = "movies",
+                    PublishQueueName = "results",
                     FunctionToExecute = "SearchMovies",
-                    Columns = Tuple.Create(filter, match)
+                    Pattern = pattern
                 };
 
 
@@ -89,7 +81,7 @@ namespace MessageService.Service
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
                 channel.BasicPublish(exchange: "",
-                                     routingKey: OutQueueName,
+                                     routingKey: MessagePublishQueueName,
                                      basicProperties: null,
                                      body: body);
                 Console.WriteLine(" [x] Sent {0}", message);
@@ -115,7 +107,7 @@ namespace MessageService.Service
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: InQueueName,
+                channel.QueueDeclare(queue: MessageListenQueueName,
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -130,7 +122,7 @@ namespace MessageService.Service
                     messageRes = message;
                     Console.WriteLine(" [x] Received {0}", message);
                 };
-                string tag = channel.BasicConsume(queue: InQueueName,
+                string tag = channel.BasicConsume(queue: MessageListenQueueName,
                                      autoAck: true,
                                      consumer: consumer);
 

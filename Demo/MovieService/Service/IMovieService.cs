@@ -12,6 +12,6 @@ namespace MovieService.Service
 
     {
         public List<Movie> GetAllMovies(IConfiguration config);
-        public List<Movie> SearchMovies(IConfiguration config, string item1, string item2);
+        public List<Movie> SearchMovies(IConfiguration config, string pattern);
     }
 }

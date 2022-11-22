@@ -4,7 +4,7 @@
     {
         public void GetAllMovieList();
         public void GetAllCostumers();
-        public void GetFilteredMovieList(string filter, string match);
+        public void GetFilteredMovieList(string pattern);
         public string GetResults();
     }
 }

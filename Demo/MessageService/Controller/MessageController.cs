@@ -33,10 +33,10 @@ namespace MessageService.Controller
             return JsonConvert.DeserializeObject<List<Movie>>(await movieMessage);
 
         }
-        [HttpGet("movies/{filter}/{match}")]  // how about promise??????
-        public async Task<List<Movie>> GetFilteredMovies(string filter, string match) //await not working unless async function
+        [HttpGet("movies/{pattern}")]  // how about promise??????
+        public async Task<List<Movie>> GetFilteredMovies(string pattern) //await not working unless async function
         {   
-            _messageService.GetFilteredMovieList(filter, match);
+            _messageService.GetFilteredMovieList(pattern);
 
             Task<string> movieMessage = ListenForResult();
 
@@ -44,12 +44,12 @@ namespace MessageService.Controller
 
         }
 
-        async Task<string> ListenForResult() //await not working unless async function
+        Task<string> ListenForResult() //await not working unless async function
         {
             _logger.LogInformation($"waiting for return messages.");
             System.Threading.Thread.Sleep(2000);
 
-            return _messageService.GetResults();
+            return Task.FromResult(_messageService.GetResults());
         }
 
     }

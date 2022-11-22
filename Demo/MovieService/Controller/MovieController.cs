@@ -23,12 +23,12 @@ namespace MovieService.Controller
             _config = config;
         }
 
-        public List<Movie> MessageRecieved(string inMessage)
+        public (string, List<Movie>) MessageRecieved(string inMessage)
         {
             Console.WriteLine(" - Message Recieved");
 
             var list = new List<Movie>();
-
+            Console.WriteLine(inMessage);
             MovieMessage? movieMessage = JsonSerializer.Deserialize<MovieMessage>(inMessage);
 
             if (movieMessage.FunctionToExecute == "GetAllMovies")
@@ -38,10 +38,10 @@ namespace MovieService.Controller
             
             else if (movieMessage.FunctionToExecute == "SearchMovies")
             {
-                list = _movieService.SearchMovies(_config, movieMessage.Columns.Item1, movieMessage.Columns.Item2);
+                list = _movieService.SearchMovies(_config, movieMessage.Pattern);
             }
 
-            return list;
+            return (movieMessage.PublishQueueName, list);
 
         }
 
