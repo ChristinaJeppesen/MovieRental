@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservice", "Microservice", "{B482063B-968B-4CBB-B9BA-2D22124708A9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{B482063B-968B-4CBB-B9BA-2D22124708A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerWebApi", "CustomerWebApi\CustomerWebApi.csproj", "{460526C8-D32B-4E4A-83CA-4A439ACAB571}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerMicroService", "CustomerMicroService\CustomerMicroService.csproj", "{460526C8-D32B-4E4A-83CA-4A439ACAB571}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A8467369-75D4-4903-99CF-4B0E11B87B8B}"
 EndProject
@@ -17,11 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus.Messages", "src\BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj", "{22B90804-1AAA-459D-8B28-AAE29D49FE91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageService", "MessageService\MessageService.csproj", "{A27C9AB8-B84A-42D5-8276-5EE1F88EF9C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageMicroService", "MessageMicroService\MessageMicroService.csproj", "{A27C9AB8-B84A-42D5-8276-5EE1F88EF9C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSanity", "TestSanity\TestSanity.csproj", "{F82007DC-E038-4B2E-849A-B4A74DF5B5FF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieService", "MovieService\MovieService.csproj", "{6477FAA6-E037-4584-BE19-DFB92DE0EF23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieMicroService", "MovieMicroService\MovieMicroService.csproj", "{6477FAA6-E037-4584-BE19-DFB92DE0EF23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

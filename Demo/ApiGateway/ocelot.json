@@ -3,16 +3,16 @@
     //Customer WEB API
 
     {
-      "UpstreamPathTemplate": "/api/customer/customers",
+      "UpstreamPathTemplate": "/api/message/customers",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "customerwebapi",
+          "Host": "messagemicroservice",
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/customer/customers"
+      "DownstreamPathTemplate": "/api/message/customers"
     },
 
     {
@@ -21,7 +21,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "customerwebapi",
+          "Host": "messagemicroservice",
           "Port": 80
         }
       ],
@@ -38,19 +38,19 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "messageservice",
+          "Host": "messagemicroservice",
           "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/message/movies"
     },
     {
-      "UpstreamPathTemplate": "/api/message/movies/{pattern}",
+      "UpstreamPathTemplate": "/api/message/movies/filter?pattern={pattern}",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "messageservice",
+          "Host": "messagemicroservice",
           "Port": 80
         }
       ],
