@@ -27,7 +27,7 @@ namespace MessageMicroService.Services
                                      autoDelete: false,
                                      arguments: null);
 
-                // ID should come from ocelot if needed else remove
+                // TODO ID should come from ocelot if needed else remove
                 var message = new Message(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "GetAllMovies"); 
           
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
@@ -63,7 +63,33 @@ namespace MessageMicroService.Services
                                      routingKey: MovieServiceListenQueueName,
                                      basicProperties: null,
                                      body: body);
-                Console.WriteLine(" [x] Sent {0}", message);
+            }
+        }
+
+        public void GetMovieById(string movieId)
+        {
+            var factory = new ConnectionFactory()
+            {
+                HostName = RMQHostName
+            };
+
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                channel.QueueDeclare(queue: MovieServiceListenQueueName,
+                                     durable: false,
+                                     exclusive: false,
+                                     autoDelete: false,
+                                     arguments: null);
+
+                var message = new Message(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovieById", movieId);
+
+                var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
+
+                channel.BasicPublish(exchange: "",
+                                     routingKey: MovieServiceListenQueueName,
+                                     basicProperties: null,
+                                     body: body);
             }
         }
     }

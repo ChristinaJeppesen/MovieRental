@@ -45,7 +45,17 @@ namespace MessageMicroService.Controller
             Task<string> movieMessage = ListenForResult();
 
             return JsonConvert.DeserializeObject<List<Movie>>(await movieMessage);
+        }
 
+
+        [HttpGet("movie/{movieId}")]  // how about promise??????
+        public async Task<List<Movie>> GetMovie(string movieId) //await not working unless async function
+        {
+            _messageService.GetMovieById(movieId);
+
+            Task<string> movieMessage = ListenForResult();
+
+            return JsonConvert.DeserializeObject<List<Movie>>(await movieMessage);
         }
 
         [HttpGet("customers")] // how about promise??????

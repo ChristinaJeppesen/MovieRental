@@ -56,6 +56,18 @@
       ],
       "DownstreamPathTemplate": "/api/message/movies/{pattern}"
     },
+    {
+      "UpstreamPathTemplate": "/api/message/movie/filter?movieId={movieId}",
+      "UpstreamHttpMethods": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messagemicroservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/message/movie/{movieId}"
+    },
 
     // Next Service can be added below
 

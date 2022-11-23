@@ -26,26 +26,23 @@ namespace MovieMicroService.Controller
         public (string, List<Movie>) MessageRecieved(string inMessage)
         {
             Console.WriteLine(" - Message Recieved");
+            List<Movie> list = new();
 
-            var list = new List<Movie>();
-            Console.WriteLine(inMessage);
             MovieMessage? movieMessage = JsonSerializer.Deserialize<MovieMessage>(inMessage);
 
             if (movieMessage.FunctionToExecute == "GetAllMovies")
             {
-                Console.WriteLine("Hello from the code");
                 list = _movieService.GetAllMovies(_config);
-            }
-            
+            }           
             else if (movieMessage.FunctionToExecute == "SearchMovies")
             {
                 list = _movieService.SearchMovies(_config, movieMessage.Pattern);
+            }            
+            else if (movieMessage.FunctionToExecute == "SearchMovieById")
+            {
+                list = _movieService.SearchMovieById(_config, movieMessage.Pattern);
             }
-
             return (movieMessage.PublishQueueName, list);
-
         }
-
     }
 }
-
