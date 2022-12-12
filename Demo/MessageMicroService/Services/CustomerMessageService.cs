@@ -29,7 +29,7 @@ namespace MessageMicroService.Services
                                      autoDelete: false,
                                      arguments: null);
 
-                var message = new Message(1, CustomerServiceListenQueueName, CustomerServicePublishQueueName, "GetAllCustomers");
+                var message = new Message<string>(1, CustomerServiceListenQueueName, CustomerServicePublishQueueName, "GetAllCustomers");
                 
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 

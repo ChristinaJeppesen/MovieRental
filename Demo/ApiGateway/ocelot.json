@@ -45,7 +45,7 @@
       "DownstreamPathTemplate": "/api/message/movies"
     },
     {
-      "UpstreamPathTemplate": "/api/message/movies/filter?pattern={pattern}",
+      "UpstreamPathTemplate": "/api/message/movies/search/{pattern}",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -54,10 +54,10 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/movies/{pattern}"
+      "DownstreamPathTemplate": "/api/message/movies/search/{pattern}"
     },
     {
-      "UpstreamPathTemplate": "/api/message/movie/filter?movieId={movieId}",
+      "UpstreamPathTemplate": "/api/message/movies/{movieId}",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -66,14 +66,38 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/movie/{movieId}"
+      "DownstreamPathTemplate": "/api/message/movies/{movieId}"
     },
 
     // Next Service can be added below
+    {
+      "UpstreamPathTemplate": "/api/message/bills",
+      "UpstreamHttpMethods": [ "Get, Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messagemicroservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/message/bills"
+    },
+    {
+      "UpstreamPathTemplate": "/api/message/user/{userId}/bills",
+      "UpstreamHttpMethods": [ "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messagemicroservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/message/user/{userId}/bills"
+    },
 
 
 
-
+    // Next Service can be added below
 
     {
       "UpstreamPathTemplate": "/api/test",

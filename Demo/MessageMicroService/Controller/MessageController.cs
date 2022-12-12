@@ -4,10 +4,12 @@ using MessageMicroService.Services;
 using Newtonsoft.Json;
 using MessageMicroService.Models;
 using Microsoft.AspNetCore.SignalR.Protocol;
+using System.Runtime.InteropServices;
+//using SharedModelLibrary;
 
 namespace MessageMicroService.Controller
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     [ApiController]
     public class MessageController : ControllerBase
     {
@@ -31,31 +33,31 @@ namespace MessageMicroService.Controller
         {
             _messageService.GetAllMovieList();
 
-            Task<string> movieMessage = ListenForResult();
+            Task<string> movieMessageResponse = ListenForResult();
 
-            return JsonConvert.DeserializeObject<List<Movie>>(await movieMessage);
+            return JsonConvert.DeserializeObject<List<Movie>>(await movieMessageResponse);
 
         }
-        [HttpGet("movies/{pattern}")]  // how about promise??????
+        [HttpGet("movies/search/{pattern}")]  // how about promise??????
         public async Task<List<Movie>> GetFilteredMovies(string pattern) //await not working unless async function
         {
             Console.WriteLine(pattern);
             _messageService.GetFilteredMovieList(pattern);
 
-            Task<string> movieMessage = ListenForResult();
+            Task<string> movieMessageResponse = ListenForResult();
 
-            return JsonConvert.DeserializeObject<List<Movie>>(await movieMessage);
+            return JsonConvert.DeserializeObject<List<Movie>>(await movieMessageResponse);
         }
 
 
-        [HttpGet("movie/{movieId}")]  // how about promise??????
+        [HttpGet("movies/{movieId}")]  // how about promise??????
         public async Task<List<Movie>> GetMovie(string movieId) //await not working unless async function
         {
             _messageService.GetMovieById(movieId);
 
-            Task<string> movieMessage = ListenForResult();
+            Task<string> movieMessageResponse = ListenForResult();
 
-            return JsonConvert.DeserializeObject<List<Movie>>(await movieMessage);
+            return JsonConvert.DeserializeObject<List<Movie>>(await movieMessageResponse);
         }
 
         [HttpGet("customers")] // how about promise??????
@@ -64,9 +66,9 @@ namespace MessageMicroService.Controller
             Console.WriteLine("Endpoint reached");
             _messageService.GetAllCustomers();
 
-            Task<string> customerMessage = ListenForResult();
+            Task<string> customerMessageResponse = ListenForResult();
 
-            return JsonConvert.DeserializeObject<List<Customer>>(await customerMessage);
+            return JsonConvert.DeserializeObject<List<Customer>>(await customerMessageResponse);
 
         }
 
@@ -77,6 +79,35 @@ namespace MessageMicroService.Controller
 
             return _messageCustomer.GetResults();
         }*/
+
+
+
+
+
+
+        // bills 
+        [HttpGet("bills")] // how about promise??????
+        public async Task<List<Bill>> GetCustomerBills() //await not working unless async function
+        {
+            _messageService.GetCustomerBills();
+
+            Task<string> billMessage = ListenForResult();
+
+            return JsonConvert.DeserializeObject<List<Bill>>(await billMessage);
+
+        }
+        
+        [HttpPost("bills")]  // how about promise??????
+        public async Task<string> PostBill(Bill bill) //await not working unless async function
+        {
+            _logger.LogInformation(bill.Price.ToString());
+
+            _messageService.CreateBill(bill);
+
+            Task<string> billMessageResponse = ListenForResult();
+
+            return JsonConvert.DeserializeObject<string>(await billMessageResponse);
+        }
 
 
         Task<string> ListenForResult() //await not working unless async function

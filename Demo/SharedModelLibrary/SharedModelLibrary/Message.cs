@@ -1,23 +1,23 @@
 ﻿using System;
-namespace MessageMicroService.Models
+namespace SharedModelLibrary
 {
 
-    public class Message <T>
+    public class Message 
     {
         public int Id { get; set; } //like request id
         public string ListenQueueName { get; set; } 
         public string PublishQueueName { get; set; } 
         public string FunctionToExecute { get; set; }
-        public T Arguments { get; set; }
+        public string Pattern { get; set; }
 
         // Different ways of constructing a Message object
-        public Message(int id, string listenQueueName,string publishQueueName, string functionToExecute, T arguments)
+        public Message(int id, string listenQueueName,string publishQueueName, string functionToExecute, string pattern)
         {
             Id = id;
             ListenQueueName = listenQueueName;
             PublishQueueName = publishQueueName;
             FunctionToExecute = functionToExecute;
-            Arguments = arguments;
+            Pattern = pattern;
         }
 
         public Message(int id, string listenQueueName, string publishQueueName, string functionToExecute)
@@ -26,7 +26,7 @@ namespace MessageMicroService.Models
             ListenQueueName = listenQueueName;
             PublishQueueName = publishQueueName;
             FunctionToExecute = functionToExecute;
-            //Arguments = string.Empty;
+            Pattern = string.Empty;
         }
 
 

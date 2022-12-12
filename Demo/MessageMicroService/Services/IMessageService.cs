@@ -1,4 +1,6 @@
-﻿namespace MessageMicroService.Services
+﻿using MessageMicroService.Models;
+
+namespace MessageMicroService.Services
 {
     public interface IMessageService
     {
@@ -10,6 +12,11 @@
         // Customers 
         public void GetAllCustomers();
 
+
+        // Bills 
+        public void CreateBill(Bill bill);
+        void GetCustomerBills();
+        
         // Results 
         public string GetResults();
     }

@@ -1,6 +1,15 @@
 version: '3.4'
 
 services:
+
+  billmicroservice:
+    container_name: billmicroservice
+    image: ${DOCKER_REGISTRY-}billmicroservice
+    build:
+      context: .
+      dockerfile: BillMicroService/Dockerfile
+
+
   customermicroservice:
     container_name: customerservice
     image: ${DOCKER_REGISTRY-}customermicroservice
@@ -73,5 +82,7 @@ services:
 
 
 
+
 volumes:
   pgdata:
+
