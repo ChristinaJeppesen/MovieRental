@@ -28,6 +28,19 @@
       "DownstreamPathTemplate": "/api/customer/{customer_id}"
     },
 
+    {
+      "UpstreamPathTemplate": "/api/message/watchlist",
+      "UpstreamHttpMethods": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messagemicroservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/message/watchlist"
+    },
+
 
 
 

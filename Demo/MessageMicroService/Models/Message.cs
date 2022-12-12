@@ -2,22 +2,22 @@
 namespace MessageMicroService.Models
 {
 
-    public class Message 
+    public class Message<T> 
     {
         public int Id { get; set; } //like request id
         public string ListenQueueName { get; set; } 
         public string PublishQueueName { get; set; } 
         public string FunctionToExecute { get; set; }
-        public string Pattern { get; set; }
+        public T? Arguments { get; set; }
 
         // Different ways of constructing a Message object
-        public Message(int id, string listenQueueName,string publishQueueName, string functionToExecute, string pattern)
+        public Message(int id, string listenQueueName,string publishQueueName, string functionToExecute, T arguments)
         {
             Id = id;
             ListenQueueName = listenQueueName;
             PublishQueueName = publishQueueName;
             FunctionToExecute = functionToExecute;
-            Pattern = pattern;
+            Arguments = arguments;
         }
 
         public Message(int id, string listenQueueName, string publishQueueName, string functionToExecute)
@@ -26,9 +26,7 @@ namespace MessageMicroService.Models
             ListenQueueName = listenQueueName;
             PublishQueueName = publishQueueName;
             FunctionToExecute = functionToExecute;
-            Pattern = string.Empty;
         }
-
 
 
     }

@@ -4,6 +4,7 @@ using MessageMicroService.Services;
 using Newtonsoft.Json;
 using MessageMicroService.Models;
 using Microsoft.AspNetCore.SignalR.Protocol;
+using System.Net;
 
 namespace MessageMicroService.Controller
 {
@@ -70,6 +71,16 @@ namespace MessageMicroService.Controller
 
         }
 
+        [HttpPost("watchlist")]
+        public async Task<HttpStatusCode> AddMovieToWatchList([FromBody] WatchList watchlist ) //await not working unless async function
+        {
+            Console.WriteLine("Endpoint reached");
+            _messageService.AddMovieToWatchList(watchlist);
+
+            Task<string> customerMessage = ListenForResult();
+
+            return HttpStatusCode.OK; 
+        }
         /*async Task<string> ListenForCustomerResult() //await not working unless async function
         {
             _logger.LogInformation($"waiting for return messages.");

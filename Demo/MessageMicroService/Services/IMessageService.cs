@@ -1,4 +1,5 @@
-﻿namespace MessageMicroService.Services
+﻿using MessageMicroService.Models;
+namespace MessageMicroService.Services
 {
     public interface IMessageService
     {
@@ -9,6 +10,7 @@
 
         // Customers 
         public void GetAllCustomers();
+        public void AddMovieToWatchList(WatchList watchList);
 
         // Results 
         public string GetResults();

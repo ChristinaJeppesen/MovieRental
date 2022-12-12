@@ -28,7 +28,7 @@ namespace MessageMicroService.Services
                                      arguments: null);
 
                 // TODO ID should come from ocelot if needed else remove
-                var message = new Message(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "GetAllMovies"); 
+                var message = new Message<string>(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "GetAllMovies"); 
           
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
@@ -55,7 +55,7 @@ namespace MessageMicroService.Services
                                      autoDelete: false,
                                      arguments: null);
 
-                var message = new Message(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovies", pattern);
+                var message = new Message<string>(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovies", pattern);
                
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
@@ -82,7 +82,7 @@ namespace MessageMicroService.Services
                                      autoDelete: false,
                                      arguments: null);
 
-                var message = new Message(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovieById", movieId);
+                var message = new Message<string>(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovieById", movieId);
 
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 

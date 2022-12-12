@@ -28,25 +28,31 @@ namespace CustomerMicroService.Controllers
         }
 
 
-        public (string, List<Customer>) MessageReceived(string inMessage)
+        public (string, string) MessageReceived(string inMessage)
         {
             Console.WriteLine(" - Message Recieved");
-            var list = new List<Customer>();
+            dynamic response = null;
 
-            CustomerMessage? customerMessage = JsonSerializer.Deserialize<CustomerMessage>(inMessage);
+            CustomerMessage<dynamic>? customerMessage = JsonSerializer.Deserialize<CustomerMessage<dynamic>>(inMessage);
 
             if (customerMessage.FunctionToExecute == "GetAllCustomers")
             {
-                Console.WriteLine("Getting all customers....");
-                list = _customerMessage.GetAllCustomers(_config);
+                response = _customerMessage.GetAllCustomers(_config);
             }
 
             else if (customerMessage.FunctionToExecute == "GetCustomer")
             {
-                list.Add(_customerMessage.GetCustomer(_config));
+                response.Add(_customerMessage.GetCustomer(_config));
             }
+            else if (customerMessage.FunctionToExecute == "AddMovieToWatchList")
+            {
 
-            return (customerMessage.PublishQueueName, list);
+                WatchList w = JsonSerializer.Deserialize<WatchList>(customerMessage.Arguments);
+
+                response = _customerMessage.AddMovieToWatchList(_config, w);
+            
+            }
+            return (customerMessage.PublishQueueName, JsonSerializer.Serialize(response));
 
         }
     }
