@@ -7,15 +7,17 @@ namespace MessageMicroService.Services
         // Movies 
         public void GetAllMovieList();
         public void GetFilteredMovieList(string pattern);
-        public void GetMovieById(string movieId);
+        public void GetMovieById(int movieId);
 
         // Customers 
         public void GetAllCustomers();
+        public void AddMovieToWatchList(WatchList watchList);
+        public void GetCustomerWatchListById(Guid customerId);
 
 
         // Bills 
         public void CreateBill(Bill bill);
-        void GetCustomerBills();
+        public void GetCustomerBills();
         
         // Results 
         public string GetResults();

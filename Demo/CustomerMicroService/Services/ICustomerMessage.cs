@@ -17,6 +17,10 @@ namespace CustomerMicroService.Services
         public void CreateCustomer(IConfiguration config);
         */
 
-        }
+        /*Customer movie stuff*/
+
+        public int AddMovieToWatchList(IConfiguration config, WatchList arguments);
+        List<int> GetCustomerWatchListById(IConfiguration config, Guid customerId);
+    }
 }
 

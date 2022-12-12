@@ -34,7 +34,7 @@ namespace CustomerMicroService
         {
             _logger.LogInformation($"Queue [{ListenQueueName}] is waiting for messages.");
 
-            System.Threading.Thread.Sleep(30000);
+            System.Threading.Thread.Sleep(60000);
 
             var factory = new ConnectionFactory { HostName = "rabbitmq" };
             factory.UserName = "guest";
@@ -60,7 +60,9 @@ namespace CustomerMicroService
 
                 // publish result on outChannel and keep listening for more messages
                 var outMessage = _customerController.MessageReceived(inMessage);
-                var outBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(outMessage.Item2));
+
+                //var outMessage = _customerController.MessageReceived<string>(inMessage);
+                byte[] outBody = Encoding.UTF8.GetBytes(outMessage.Item2);
 
                 outChannel.QueueDeclare(queue: outMessage.Item1, // dosent seem to make diff??
                                    durable: false, // true if sender's durable is true!!!

@@ -72,5 +72,10 @@ namespace BillMicroService.Services
         {
             throw new NotImplementedException();
         }
+
+        List<Bill> IBillService.UpdatePayment(IConfiguration config)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

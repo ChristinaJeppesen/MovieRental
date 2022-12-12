@@ -23,26 +23,34 @@ namespace MovieMicroService.Controller
             _config = config;
         }
 
-        public (string, List<Movie>) MessageRecieved(string inMessage)
+        public (string, string) MessageRecieved(string inMessage)
         {
             Console.WriteLine(" - Message Recieved");
-            List<Movie> list = new();
+            dynamic response = null;
 
-            MovieMessage? movieMessage = JsonSerializer.Deserialize<MovieMessage>(inMessage);
+            MovieMessage<dynamic>? movieMessage = JsonSerializer.Deserialize<MovieMessage<dynamic>>(inMessage);
 
             if (movieMessage.FunctionToExecute == "GetAllMovies")
             {
-                list = _movieService.GetAllMovies(_config);
+                response = _movieService.GetAllMovies(_config);
             }           
             else if (movieMessage.FunctionToExecute == "SearchMovies")
             {
-                list = _movieService.SearchMovies(_config, movieMessage.Pattern);
+                string pattern = JsonSerializer.Deserialize<string>(movieMessage.Arguments);
+                response = _movieService.SearchMovies(_config, pattern);
             }            
             else if (movieMessage.FunctionToExecute == "SearchMovieById")
             {
-                list = _movieService.SearchMovieById(_config, movieMessage.Pattern);
+                int movieId = JsonSerializer.Deserialize<int>(movieMessage.Arguments);
+                response = _movieService.SearchMovieById(_config, movieId);
             }
-            return (movieMessage.PublishQueueName, list);
+            else if (movieMessage.FunctionToExecute == "GetMovieTitles")
+            {
+                List<int> movieIdList = JsonSerializer.Deserialize<List<int>>(movieMessage.Arguments);
+                response = _movieService.GetMovieTitles(_config, movieIdList);
+            }
+
+            return (movieMessage.PublishQueueName, JsonSerializer.Serialize(response));
         }
     }
 }

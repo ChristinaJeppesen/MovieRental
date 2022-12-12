@@ -11,6 +11,7 @@ namespace MovieMicroService.Services
     {
         public List<Movie> GetAllMovies(IConfiguration config);
         public List<Movie> SearchMovies(IConfiguration config, string pattern);
-        public List<Movie> SearchMovieById(IConfiguration config, string movieId);
+        public List<Movie> SearchMovieById(IConfiguration config, int movieId);
+        public List<string> GetMovieTitles(IConfiguration config, List<int> movieIdList);
     }
 }

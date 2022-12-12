@@ -45,6 +45,7 @@ namespace MessageMicroService.Services
                 //Console.ReadLine();
                 channel.BasicCancel(tag);
             }
+            //System.Threading.Thread.Sleep(2000);
             return messageRes;
 
         }

@@ -66,7 +66,7 @@ namespace MessageMicroService.Services
             }
         }
 
-        public void GetMovieById(string movieId)
+        public void GetMovieById(int movieId)
         {
             var factory = new ConnectionFactory()
             {
@@ -82,7 +82,7 @@ namespace MessageMicroService.Services
                                      autoDelete: false,
                                      arguments: null);
 
-                var message = new Message<string>(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovieById", movieId);
+                var message = new Message<int>(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovieById", movieId);
 
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 

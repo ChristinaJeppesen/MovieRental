@@ -58,7 +58,7 @@ namespace MovieMicroService
 
                 // publish result on outChannel and keep listening for more messages
                 var outMessage = _movieController.MessageRecieved(inMessage);
-                var outBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(outMessage.Item2));
+                var outBody = Encoding.UTF8.GetBytes(outMessage.Item2);
                
                 outChannel.QueueDeclare(queue: outMessage.Item1, // dosent seem to make diff??
                                    durable: false, // true if sender's durable is true!!!

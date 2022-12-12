@@ -26,9 +26,7 @@ namespace MessageMicroService.Models
             ListenQueueName = listenQueueName;
             PublishQueueName = publishQueueName;
             FunctionToExecute = functionToExecute;
-            //Arguments = string.Empty;
         }
-
 
 
     }

@@ -84,7 +84,7 @@ namespace MovieMicroService.Services
             return movieList;
         }
 
-        public List<Movie> SearchMovieById(IConfiguration config, string movieId)
+        public List<Movie> SearchMovieById(IConfiguration config, int movieId)
         {
             string connString = config.GetConnectionString("DefaultConnection");
             List<Movie> movieList = new();
@@ -122,6 +122,33 @@ namespace MovieMicroService.Services
                 }
             }
             return movieList;
+        }
+
+        public List<string> GetMovieTitles(IConfiguration config, List<int> movieIdList)
+        {
+            string connString = config.GetConnectionString("DefaultConnection");
+
+            Console.Out.WriteLine(" - GetMovieTitles() enabled");
+            var movieTitleList = new List<string>();
+
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                Console.Out.WriteLine("   - Opening connection");
+                conn.Open();
+
+                var sqlMovieIdList = string.Join(",", movieIdList.Select(i => $"{i}"));
+                using (var command = new NpgsqlCommand($"SELECT title FROM movie WHERE movie_id IN ({sqlMovieIdList})", conn))
+                {
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        movieTitleList.Add(reader.GetString(0));
+                    };
+                    reader.Close();
+                    Console.Out.WriteLine("   - Connection closed");
+                }
+            }
+            return movieTitleList;
         }
     }
 }
