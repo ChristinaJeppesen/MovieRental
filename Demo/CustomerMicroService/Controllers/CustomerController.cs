@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using CustomerMicroService.Services;
 using Npgsql;
 using System.Text.Json;
+using SharedModelLibrary;
 
 namespace CustomerMicroService.Controllers
 {
@@ -33,7 +34,7 @@ namespace CustomerMicroService.Controllers
             Console.WriteLine(" - Message Recieved");
             dynamic response = null;
 
-            CustomerMessage<dynamic>? customerMessage = JsonSerializer.Deserialize<CustomerMessage<dynamic>>(inMessage);
+            Message<dynamic>? customerMessage = JsonSerializer.Deserialize<Message<dynamic>>(inMessage);
 
             if (customerMessage.FunctionToExecute == "GetAllCustomers")
             {
@@ -58,7 +59,7 @@ namespace CustomerMicroService.Controllers
 
                 var movieIdList = _customerMessage.GetCustomerWatchListById(_config, customerId);
 
-                response = new CustomerMessage<List<int>>(1, "movies", "results", "GetMovieTitles", movieIdList);
+                response = new Message<List<int>>(1, "movies", "results", "GetMovieTitles", movieIdList);
 
             }
 

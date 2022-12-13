@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 namespace BillMicroService.Models;
 
 public class BillMessage <T>
@@ -15,6 +16,6 @@ public class BillMessage <T>
 
 
 }
-
+*/
 
 

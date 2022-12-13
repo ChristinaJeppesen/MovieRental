@@ -1,5 +1,6 @@
 ﻿using MovieMicroService.Models;
 using Npgsql;
+using SharedModelLibrary;
 // Service + data access layer combined 
 
 namespace MovieMicroService.Services
@@ -10,7 +11,7 @@ namespace MovieMicroService.Services
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
-            Console.Out.WriteLine(" - GetAllMovies() enabled");
+            Console.Out.WriteLine(" - GetAllMovies()");
             var movieList = new List<Movie>();
 
             using (var conn = new NpgsqlConnection(connString))
@@ -49,7 +50,7 @@ namespace MovieMicroService.Services
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
-            Console.Out.WriteLine(" - SearchMovies() enabled");
+            Console.Out.WriteLine(" - SearchMovies()");
             var movieList = new List<Movie>();
 
             using (var conn = new NpgsqlConnection(connString))
@@ -89,7 +90,7 @@ namespace MovieMicroService.Services
             string connString = config.GetConnectionString("DefaultConnection");
             List<Movie> movieList = new();
 
-            Console.WriteLine(" - SearchMovieById() enabled");
+            Console.WriteLine(" - SearchMovieById()");
 
             using (var conn = new NpgsqlConnection(connString))
             {
@@ -128,7 +129,7 @@ namespace MovieMicroService.Services
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
-            Console.Out.WriteLine(" - GetMovieTitles() enabled");
+            Console.Out.WriteLine(" - GetMovieTitles()");
             var movieTitleList = new List<string>();
 
             using (var conn = new NpgsqlConnection(connString))

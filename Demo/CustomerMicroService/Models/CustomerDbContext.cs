@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using SharedModelLibrary;
 
 namespace CustomerMicroService
 {
@@ -15,7 +16,7 @@ namespace CustomerMicroService
         }
 
       
-        public DbSet<Models.Customer> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
     }
 }

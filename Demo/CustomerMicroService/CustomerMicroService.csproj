@@ -42,4 +42,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharedModelLibrary\SharedModelLibrary\SharedModelLibrary.csproj" />
+  </ItemGroup>
 </Project>

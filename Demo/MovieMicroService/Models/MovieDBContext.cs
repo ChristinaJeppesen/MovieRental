@@ -3,6 +3,7 @@ using MovieMicroService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using SharedModelLibrary;
 
 namespace MovieMicroService.Models
 {
@@ -12,7 +13,7 @@ namespace MovieMicroService.Models
         {
 
         }
-        public DbSet<Models.Movie> Movies { get; set; }
+        public DbSet<Movie> Movies { get; set; }
 
     }
 }

@@ -6,7 +6,7 @@ using MessageMicroService.Models;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using System.Net;
 using System.Runtime.InteropServices;
-//using SharedModelLibrary;
+using SharedModelLibrary;
 
 namespace MessageMicroService.Controller
 {
@@ -136,7 +136,7 @@ namespace MessageMicroService.Controller
         Task<string> ListenForResult() //await not working unless async function
         {
             _logger.LogInformation($"waiting for return messages.");
-            //System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(2000);
 
             return Task.FromResult(_messageService.GetResults());
         }

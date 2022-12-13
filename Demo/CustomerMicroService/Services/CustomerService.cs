@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using CustomerMicroService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using SharedModelLibrary;
 
 namespace CustomerMicroService.Services
 {
@@ -65,11 +66,13 @@ namespace CustomerMicroService.Services
 
         public List<int> GetCustomerWatchListById(IConfiguration config, Guid customerId)
         {
+            Console.WriteLine("CustomerService: GetCustomerWatchListById()");
             var movieIdList = new List<int>();
             string conn = config.GetConnectionString("DefaultConnection");
 
             using (NpgsqlConnection myCon = new NpgsqlConnection(conn))
             {
+                Console.WriteLine("Opening connection");
                 myCon.Open();
                 using (NpgsqlCommand command = new NpgsqlCommand($"SELECT movie_id FROM watch_list WHERE customer_id='{customerId}'", myCon))
                 {
@@ -81,6 +84,7 @@ namespace CustomerMicroService.Services
 
                     }
                     reader.Close();
+                    Console.WriteLine("Closed connection");
                 }
             }
             return movieIdList;

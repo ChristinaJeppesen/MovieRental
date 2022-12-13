@@ -2,7 +2,7 @@
 using System.Text.Json;
 using BillMicroService.Services;
 using BillMicroService.Models; 
-//using SharedModelLibrary;
+using SharedModelLibrary;
 
 namespace BillMicroService.Controller
 {
@@ -26,7 +26,7 @@ namespace BillMicroService.Controller
         {
             Console.WriteLine(" - Message Recieved");
 
-            BillMessage<Bill>? message = JsonSerializer.Deserialize<BillMessage<Bill>>(inMessage);
+            Message<Bill>? message = JsonSerializer.Deserialize<Message<Bill>>(inMessage);
             dynamic response = null;
 
             if (message.FunctionToExecute == "GetCustomerBills")

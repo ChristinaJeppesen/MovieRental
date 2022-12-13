@@ -1,4 +1,4 @@
-﻿namespace SharedModelLibrarys
+﻿namespace SharedModelLibrary
 {
     public class Movie
     {
@@ -11,7 +11,7 @@
         public double Duration { get; set; }
         public string AgeRating { get; set; }
         public double Price { get; set; }
-        
+
 
 
     }

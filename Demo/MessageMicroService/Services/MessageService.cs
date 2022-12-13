@@ -14,6 +14,7 @@ namespace MessageMicroService.Services
         public string GetResults()
         {
             var messageRes = "";
+            
             var factory = new ConnectionFactory()
             {
                 HostName = RMQHostName
@@ -46,8 +47,8 @@ namespace MessageMicroService.Services
                 channel.BasicCancel(tag);
             }
             //System.Threading.Thread.Sleep(2000);
+            
             return messageRes;
-
         }
     }
 }

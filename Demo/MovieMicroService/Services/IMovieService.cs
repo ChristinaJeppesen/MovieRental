@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MovieMicroService.Models;
+using SharedModelLibrary;
 
 namespace MovieMicroService.Services
 {

@@ -4,16 +4,17 @@ using System.Text;
 using System.Text.Json;
 using BillMicroService.Controller;
 using Microsoft.EntityFrameworkCore.Query;
+using SharedModelLibrary;
 
 namespace BillMicroService
 {
-    public class Worker : BackgroundService
+    public class BillWorker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<BillWorker> _logger;
         private readonly BillController _billController;
         private const string ListenQueueName = "bills";
 
-        public Worker(ILogger<Worker> logger, BillController billController)
+        public BillWorker(ILogger<BillWorker> logger, BillController billController)
         {
             _logger = logger;
             _billController = billController;

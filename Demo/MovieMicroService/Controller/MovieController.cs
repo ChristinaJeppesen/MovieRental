@@ -4,6 +4,7 @@ using MovieMicroService.Services;
 using MovieMicroService;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using SharedModelLibrary;
 
 namespace MovieMicroService.Controller
 {
@@ -28,7 +29,7 @@ namespace MovieMicroService.Controller
             Console.WriteLine(" - Message Recieved");
             dynamic response = null;
 
-            MovieMessage<dynamic>? movieMessage = JsonSerializer.Deserialize<MovieMessage<dynamic>>(inMessage);
+            Message<dynamic>? movieMessage = JsonSerializer.Deserialize<Message<dynamic>>(inMessage);
 
             if (movieMessage.FunctionToExecute == "GetAllMovies")
             {

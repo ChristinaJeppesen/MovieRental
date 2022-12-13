@@ -1,4 +1,5 @@
-﻿namespace BillMicroService.Models
+﻿/*
+namespace BillMicroService.Models
 {
     public class Bill
     {
@@ -10,3 +11,4 @@
 
     }
 }
+*/

@@ -1,5 +1,6 @@
 ﻿using System;
 using CustomerMicroService.Models;
+using SharedModelLibrary;
 
 namespace CustomerMicroService.Services
 {

@@ -1,4 +1,5 @@
 ﻿using MessageMicroService.Models;
+using SharedModelLibrary;
 
 namespace MessageMicroService.Services
 {
