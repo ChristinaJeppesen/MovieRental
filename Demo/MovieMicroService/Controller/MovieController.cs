@@ -32,15 +32,15 @@ namespace MovieMicroService.Controller
             {
                 response = _movieService.GetAllMovies(_config);
             }           
-            else if (movieMessage.FunctionToExecute == "SearchMovies")
+            else if (movieMessage.FunctionToExecute == "BrowseMovies")
             {
                 string pattern = JsonSerializer.Deserialize<string>(movieMessage.Arguments);
-                response = _movieService.SearchMovies(_config, pattern);
+                response = _movieService.GetFilteredMovies(_config, pattern);
             }            
-            else if (movieMessage.FunctionToExecute == "SearchMovieById")
+            else if (movieMessage.FunctionToExecute == "GetMovieById")
             {
                 int movieId = JsonSerializer.Deserialize<int>(movieMessage.Arguments);
-                response = _movieService.SearchMovieById(_config, movieId);
+                response = _movieService.GetMovieById(_config, movieId);
             }
             else if (movieMessage.FunctionToExecute == "GetMovieTitles")
             {

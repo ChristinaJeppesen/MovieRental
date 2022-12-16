@@ -23,14 +23,14 @@ namespace MessageMicroService.Services
         public void GetFilteredMovieList(string arguments)
         {
 
-            Message<string> message = new(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovies", arguments);
+            Message<string> message = new(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "BrowseMovies", arguments);
             message.PublishMessageRMQ();
         }
 
         public void GetMovieById(int movieId)
         {
 
-            Message<int> message = new(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "SearchMovieById", movieId);
+            Message<int> message = new(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "GetMovieById", movieId);
             message.PublishMessageRMQ();
         }
     }
