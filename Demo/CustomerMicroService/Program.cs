@@ -18,10 +18,15 @@ builder.Services.AddDbContext<CustomerDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString($"Server={dbHost};Username={user};Database={dbName};Port={5432};Password={dbPassword}"));
 });
 builder.Services.AddControllers();
-
 builder.Services.AddSingleton<ICustomerMessage, CustomerService>(); 
 builder.Services.AddSingleton<CustomerController>();
-builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<CustomerWorker>(sp =>
+{
+    var customerController = sp.GetRequiredService<CustomerController>();
+
+    return new CustomerWorker(customerController, "customers");
+
+});
 
 var app = builder.Build();
 

@@ -9,16 +9,18 @@ using CustomerMicroService.Services;
 using Npgsql;
 using System.Text.Json;
 using SharedModelLibrary;
+using RabbitMQ.Client.Events;
+using System.Text;
+using Microsoft.AspNetCore.SignalR.Protocol;
 
 namespace CustomerMicroService.Controllers
 {
-    [Route("[controller]")]
-    [Controller]
-    public class CustomerController : ControllerBase
+    public class CustomerController : SharedModelLibrary.Controller
     {
         private readonly IConfiguration _config;
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerMessage _customerMessage;
+
 
         public CustomerController(ILogger<CustomerController> logger, ICustomerMessage customerMessage,
             IConfiguration config)
@@ -26,10 +28,10 @@ namespace CustomerMicroService.Controllers
             _logger = logger;
             _customerMessage = customerMessage;
             _config = config;
+            
         }
 
-
-        public (string, string) MessageReceived(string inMessage)
+        public override (string, string) MessageReceived(string inMessage)
         {
             Console.WriteLine(" - Message Recieved");
             dynamic response = null;
@@ -67,6 +69,7 @@ namespace CustomerMicroService.Controllers
             return (customerMessage.PublishQueueName, JsonSerializer.Serialize(response));
 
         }
+
     }
 }
 

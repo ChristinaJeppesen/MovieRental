@@ -28,7 +28,14 @@ builder.Services.AddDbContext<BillDBContext>(options => {
 
 builder.Services.AddSingleton<IBillService, BillService>(); // once per request
 builder.Services.AddSingleton<BillController>();
-builder.Services.AddHostedService<BillWorker>();
+
+builder.Services.AddHostedService<BillWorker>(sp =>
+{
+    var billController = sp.GetRequiredService<BillController>();
+
+    return new BillWorker(billController, "bills");
+
+});
 
 //builder.Services.AddTransient<IMovieService, Service>(); // no difference?
 

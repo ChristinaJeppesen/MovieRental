@@ -7,9 +7,7 @@ using SharedModelLibrary;
 namespace BillMicroService.Controller
 {
 
-    [Route("[controller]")]
-    [Controller]
-    public class BillController : ControllerBase
+    public class BillController : SharedModelLibrary.Controller
     {
         private readonly ILogger<BillController> _logger;
         private readonly IBillService _billService;
@@ -22,7 +20,7 @@ namespace BillMicroService.Controller
             _config = config;
         }
 
-        public (string, string) MessageRecieved(string inMessage)
+        public override (string, string) MessageReceived(string inMessage)
         {
             Console.WriteLine(" - Message Recieved");
 

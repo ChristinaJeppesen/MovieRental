@@ -8,20 +8,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SharedModelLibrary
 {
-    public class Worker
+    public class Worker : BackgroundService
     {
-        private readonly Controller _controller;
+        private readonly IController _controller;
         private string ListenQueueName;
 
         //private const string ListenQueueName;
 
-        public Worker(Controller controller, string listenQueueName)
+        public Worker(IController controller, string listenQueueName)
         {
             _controller = controller;
             ListenQueueName = listenQueueName;
         }
 
-        public void Test()
+     
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
 
             System.Threading.Thread.Sleep(30000);
@@ -50,8 +52,8 @@ namespace SharedModelLibrary
                 var inMessage = Encoding.UTF8.GetString(inBody);
 
                 // publish result on outChannel and keep listening for more messages
-                
-                var outMessage = _controller.MessageRecieved(inMessage);
+
+                var outMessage = _controller.MessageReceived(inMessage);
                 Console.WriteLine(outMessage.Item2);
                 var outBody = Encoding.UTF8.GetBytes(outMessage.Item2);
                 outChannel.QueueDeclare(queue: outMessage.Item1, // dosent seem to make diff??
@@ -72,6 +74,7 @@ namespace SharedModelLibrary
             Console.ReadLine();
         }
 
+      
     }
 }
 

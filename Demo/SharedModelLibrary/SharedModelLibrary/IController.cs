@@ -8,6 +8,6 @@ namespace SharedModelLibrary
 {
     public interface IController
     {
-        public (string, string) MessageRecieved(string inMessage);
+        public (string, string) MessageReceived(string inMessage);
     }
 }

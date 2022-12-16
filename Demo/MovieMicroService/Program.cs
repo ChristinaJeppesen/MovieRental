@@ -27,8 +27,13 @@ builder.Services.AddDbContext<MovieDBContext>(options => {
 
 builder.Services.AddSingleton<IMovieService, MovieService>(); // once per request
 builder.Services.AddSingleton<MovieController>();
-builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<MovieWorker>(sp =>
+{
+    var customerController = sp.GetRequiredService<MovieController>();
 
+    return new MovieWorker(customerController, "movies");
+
+});
 //builder.Services.AddTransient<IMovieService, Service>(); // no difference?
 
 builder.Services.AddControllers();

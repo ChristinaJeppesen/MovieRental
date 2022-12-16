@@ -8,10 +8,7 @@ using SharedModelLibrary;
 
 namespace MovieMicroService.Controller
 {
-
-    [Route("[controller]")]
-    [Controller]
-    public class MovieController : ControllerBase
+    public class MovieController : SharedModelLibrary.Controller
     {
         private readonly ILogger<MovieController> _logger;
         private readonly IMovieService _movieService;
@@ -24,7 +21,7 @@ namespace MovieMicroService.Controller
             _config = config;
         }
 
-        public (string, string) MessageRecieved(string inMessage)
+        public override (string, string) MessageReceived(string inMessage)
         {
             Console.WriteLine(" - Message Recieved");
             dynamic response = null;
