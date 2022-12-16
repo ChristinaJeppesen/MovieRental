@@ -11,14 +11,12 @@ namespace SharedModelLibrary
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public int AddressId { get; set; }
 
-        public Customer(Guid id, string firstName, string lastName, string email, int addressId) {
+        public Customer(Guid id, string firstName, string lastName, string email) {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            AddressId = addressId;
         }
 
     }

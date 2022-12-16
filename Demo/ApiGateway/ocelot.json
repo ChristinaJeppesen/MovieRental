@@ -3,7 +3,7 @@
     //Customer WEB API
 
     {
-      "UpstreamPathTemplate": "/api/message/customers",
+      "UpstreamPathTemplate": "/api/customers",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -12,7 +12,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/customers"
+      "DownstreamPathTemplate": "/api/customers"
     },
 
     {
@@ -30,7 +30,7 @@
 
     // req-> customer wants to see watch-list in readable format, return: list of movie titles
     {
-      "UpstreamPathTemplate": "/api/message/{customerId}/watchlist",
+      "UpstreamPathTemplate": "/api/{customerId}/watchlist",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -39,11 +39,11 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/{customerId}/watchlist"
+      "DownstreamPathTemplate": "/api/{customerId}/watchlist"
     },
 
     {
-      "UpstreamPathTemplate": "/api/message/watchlist",
+      "UpstreamPathTemplate": "/api/watchlist",
       "UpstreamHttpMethods": [ "Post" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -52,15 +52,16 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/watchlist"
+      "DownstreamPathTemplate": "/api/watchlist"
     },
 
 
 
 
     // Next Service can be added below
+    // Movies
     {
-      "UpstreamPathTemplate": "/api/message/movies",
+      "UpstreamPathTemplate": "/api/movies",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -69,10 +70,10 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/movies"
+      "DownstreamPathTemplate": "/api/movies"
     },
     {
-      "UpstreamPathTemplate": "/api/message/movies/search/{pattern}",
+      "UpstreamPathTemplate": "/api/movies/browse/{pattern}",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -81,10 +82,10 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/movies/search/{pattern}"
+      "DownstreamPathTemplate": "/api/movies/browse/{pattern}"
     },
     {
-      "UpstreamPathTemplate": "/api/message/movies/{movieId}",
+      "UpstreamPathTemplate": "/api/movies/{movieId}",
       "UpstreamHttpMethods": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -93,12 +94,12 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/movies/{movieId}"
+      "DownstreamPathTemplate": "/api/movies/{movieId}"
     },
 
     // Next Service can be added below
     {
-      "UpstreamPathTemplate": "/api/message/bills",
+      "UpstreamPathTemplate": "/api/bills",
       "UpstreamHttpMethods": [ "Get, Post" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -107,10 +108,10 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/bills"
+      "DownstreamPathTemplate": "/api/bills"
     },
     {
-      "UpstreamPathTemplate": "/api/message/user/{userId}/bills",
+      "UpstreamPathTemplate": "/api/user/{userId}/bills",
       "UpstreamHttpMethods": [ "Put" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -119,7 +120,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/message/user/{userId}/bills"
+      "DownstreamPathTemplate": "/api/user/{userId}/bills"
     },
 
 

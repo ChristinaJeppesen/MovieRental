@@ -1,6 +1,9 @@
-﻿using MovieMicroService.Models;
+﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
+using MovieMicroService.Models;
 using Npgsql;
 using SharedModelLibrary;
+using System.ComponentModel;
+using System.Data;
 // Service + data access layer combined 
 
 namespace MovieMicroService.Services
@@ -19,9 +22,12 @@ namespace MovieMicroService.Services
                 Console.Out.WriteLine("   - Opening connection");
                 conn.Open();
 
-                using (var command = new NpgsqlCommand("SELECT movie_id,title,description,release_year,duration,rating,price " +
-                                                       "FROM movie JOIN movie_price " +
-                                                       "ON movie.price_id=movie_price.price_id", conn))
+                var query = "SELECT movie.movie_id, title, description, release_year, duration, rating, category.name, price " +
+                            "FROM movie JOIN movie_category ON movie.movie_id = movie_category.movie_id " +
+                            "JOIN category ON category.category_id = movie_category.category_id " +
+                            "JOIN movie_price ON movie_price.price_id = movie.price_id";
+
+                using (var command = new NpgsqlCommand(query, conn))
                 {
                     var reader = command.ExecuteReader();
                     while (reader.Read())
@@ -34,7 +40,8 @@ namespace MovieMicroService.Services
                             ReleaseYear = reader.GetInt32(3),
                             Duration = reader.GetDouble(4),
                             AgeRating = reader.GetString(5),
-                            Price = reader.GetDouble(6)
+                            Category = reader.GetString(6),
+                            Price = reader.GetDouble(7)
                         };
                         movieList.Add( movie );
                     };
@@ -46,11 +53,11 @@ namespace MovieMicroService.Services
         }
 
         
-        public List<Movie> SearchMovies(IConfiguration config, string pattern)
+        public List<Movie> GetFilteredMovies(IConfiguration config, string pattern)
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
-            Console.Out.WriteLine(" - SearchMovies()");
+            Console.Out.WriteLine(" - GetFilteredMovies()");
             var movieList = new List<Movie>();
 
             using (var conn = new NpgsqlConnection(connString))
@@ -58,10 +65,13 @@ namespace MovieMicroService.Services
                 Console.Out.WriteLine("   - Opening connection");
                 conn.Open();
 
-                using (var command = new NpgsqlCommand($"SELECT movie_id,title,description,release_year,duration,rating,price " +
-                                                       $"FROM movie JOIN movie_price " +
-                                                       $"ON movie.price_id=movie_price.price_id " +
-                                                       $"WHERE title LIKE '%{pattern}%' OR description LIKE '%{pattern}%'", conn))
+                var query = $"SELECT movie.movie_id, title, description, release_year, duration,rating, category.name, price " +
+                            $"FROM movie JOIN movie_category ON movie.movie_id = movie_category.movie_id " +
+                            $"JOIN category ON category.category_id = movie_category.category_id " +
+                            $"JOIN movie_price ON movie_price.price_id = movie.price_id " +
+                            $"WHERE title ILIKE '%{pattern}%' OR description ILIKE '%{pattern}%' OR category.name ILIKE '%{pattern}%'";
+
+                using (var command = new NpgsqlCommand(query, conn))
                 {
                     var reader = command.ExecuteReader();
                     while (reader.Read())
@@ -74,7 +84,8 @@ namespace MovieMicroService.Services
                             ReleaseYear = reader.GetInt32(3),
                             Duration = reader.GetDouble(4),
                             AgeRating = reader.GetString(5),
-                            Price = reader.GetDouble(6)
+                            Category = reader.GetString(6),
+                            Price = reader.GetDouble(7)
                         };
                         movieList.Add(movie);
                     };
@@ -85,7 +96,7 @@ namespace MovieMicroService.Services
             return movieList;
         }
 
-        public List<Movie> SearchMovieById(IConfiguration config, int movieId)
+        public List<Movie> GetMovieById(IConfiguration config, int movieId)
         {
             string connString = config.GetConnectionString("DefaultConnection");
             List<Movie> movieList = new();
@@ -97,10 +108,13 @@ namespace MovieMicroService.Services
                 Console.Out.WriteLine("   - Opening connection");
                 conn.Open();
 
-                using (var command = new NpgsqlCommand($"SELECT movie_id,title,description,release_year,duration,rating,price " +
-                                                       $"FROM movie JOIN movie_price " +
-                                                       $"ON movie.price_id=movie_price.price_id " +
-                                                       $"WHERE movie_id={movieId}", conn))
+                var query = $"SELECT movie.movie_id, title, description, release_year, duration, rating, category.name, price " +
+                            $"FROM movie JOIN movie_category ON movie.movie_id = movie_category.movie_id " +
+                            $"JOIN category ON category.category_id = movie_category.category_id " +
+                            $"JOIN movie_price ON movie_price.price_id = movie.price_id " +
+                            $"WHERE movie.movie_id={movieId}";
+                
+                using (var command = new NpgsqlCommand(query, conn))
                 {
                     var reader = command.ExecuteReader();
                     reader.Read();
@@ -114,7 +128,8 @@ namespace MovieMicroService.Services
                         ReleaseYear = reader.GetInt32(3),
                         Duration = reader.GetDouble(4),
                         AgeRating = reader.GetString(5),
-                        Price = reader.GetDouble(6)
+                        Category = reader.GetString(6),
+                        Price = reader.GetDouble(7)
                     };
                     movieList.Add(movie);
 

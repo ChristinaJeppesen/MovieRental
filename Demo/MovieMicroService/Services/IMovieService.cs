@@ -11,8 +11,8 @@ namespace MovieMicroService.Services
     public interface IMovieService
     {
         public List<Movie> GetAllMovies(IConfiguration config);
-        public List<Movie> SearchMovies(IConfiguration config, string pattern);
-        public List<Movie> SearchMovieById(IConfiguration config, int movieId);
+        public List<Movie> GetFilteredMovies(IConfiguration config, string pattern);
+        public List<Movie> GetMovieById(IConfiguration config, int movieId);
         public List<string> GetMovieTitles(IConfiguration config, List<int> movieIdList);
     }
 }

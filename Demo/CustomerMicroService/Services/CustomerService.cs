@@ -24,7 +24,7 @@ namespace CustomerMicroService.Services
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        Customer customer = new Customer(reader.GetGuid(0), reader.GetString(1),reader.GetString(2), reader.GetString(3), reader.GetInt32(4));
+                        Customer customer = new Customer(reader.GetGuid(0), reader.GetString(1),reader.GetString(2), reader.GetString(3));
                         customerList.Add(customer);
 
                     }

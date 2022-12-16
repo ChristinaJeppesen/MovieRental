@@ -10,7 +10,7 @@ using SharedModelLibrary;
 
 namespace MessageMicroService.Controller
 {
-    [Route("api/[controller]")] 
+    [Route("api/")] 
     [ApiController]
     public class MessageController : ControllerBase
     {
@@ -39,7 +39,7 @@ namespace MessageMicroService.Controller
             return JsonConvert.DeserializeObject<List<Movie>>(await movieMessageResponse);
 
         }
-        [HttpGet("movies/search/{pattern}")]  // how about promise??????
+        [HttpGet("movies/browse/{pattern}")]  // how about promise??????
         public async Task<List<Movie>> GetFilteredMovies(string pattern) //await not working unless async function
         {
             Console.WriteLine(pattern);
