@@ -14,7 +14,8 @@ namespace MessageMicroService.Services
         public void GetAllCustomers();
         public void AddMovieToWatchList(WatchList watchList);
         public void GetCustomerWatchListById(Guid customerId);
-
+        public void UpdateCustomerInformation(Customer customerId);
+        public void GetCustomerHistoryList(Guid customerId);
 
         // Bills 
         public void CreateBill(Bill bill);

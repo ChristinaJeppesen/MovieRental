@@ -2,6 +2,7 @@
 using MovieMicroService.Models;
 using Npgsql;
 using SharedModelLibrary;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 // Service + data access layer combined 
@@ -140,12 +141,12 @@ namespace MovieMicroService.Services
             return movieList;
         }
 
-        public List<string> GetMovieTitles(IConfiguration config, List<int> movieIdList)
+        public List<(int, string)> GetMovieTitles(IConfiguration config, List<int> movieIdList)
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
             Console.Out.WriteLine(" - GetMovieTitles()");
-            var movieTitleList = new List<string>();
+            var movieTitleList = new List<(int,string)>();
 
             using (var conn = new NpgsqlConnection(connString))
             {
@@ -153,18 +154,42 @@ namespace MovieMicroService.Services
                 conn.Open();
 
                 var sqlMovieIdList = string.Join(",", movieIdList.Select(i => $"{i}"));
-                using (var command = new NpgsqlCommand($"SELECT title FROM movie WHERE movie_id IN ({sqlMovieIdList})", conn))
+                using (var command = new NpgsqlCommand($"SELECT movie_id, title FROM movie WHERE movie_id IN ({sqlMovieIdList})", conn))
                 {
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        movieTitleList.Add(reader.GetString(0));
+                        movieTitleList.Add((reader.GetInt32(0), reader.GetString(1)));
                     };
                     reader.Close();
                     Console.Out.WriteLine("   - Connection closed");
                 }
             }
             return movieTitleList;
+        }
+
+        public List<HistoryItem> ConstructHistoryList(IConfiguration config, List<HistoryItem> history)
+        {
+            List<int> movieidList = new List<int>();
+            foreach (var item in history)
+            {
+                movieidList.Add(item.MovieId);
+            }
+
+            var titles = GetMovieTitles(config, movieidList);
+            var result = new List<HistoryItem>();
+            var res = titles.ToDictionary(x => x.Item1, x => x.Item2);
+
+            foreach (HistoryItem item in history)
+            {
+                if (res.ContainsKey(item.MovieId))
+                {
+                    string temp = res[item.MovieId];
+                    HistoryItem value = new(item.MovieId, temp, item.Timestamp);
+                    result.Add(value);
+                } 
+            }
+            return result;
         }
     }
 }
