@@ -1,13 +1,14 @@
 ﻿using Npgsql;
 //using BillMicroService.Models;
 using SharedModelLibrary;
+using System.Data;
 
 namespace BillMicroService.Services
 {
     public class BillService : IBillService
     {
 
-        public List<Bill> GetCustomerBillList(IConfiguration config)
+        public List<Bill> GetCustomerBillList(IConfiguration config, Guid customerId)
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
@@ -19,19 +20,18 @@ namespace BillMicroService.Services
                 Console.Out.WriteLine("   - Opening connection");
                 conn.Open();
 
-                using (var command = new NpgsqlCommand("SELECT * " +
-                                                       "FROM bill ", conn))
+                var query = $"SELECT order_id, customer_id, product_type_id, movie_id_list, price, timestamp_created, status, timestamp_updated FROM bill WHERE customer_id='{customerId}' ORDER BY timestamp_created DESC";
+
+                using (var command = new NpgsqlCommand(query, conn))
                 {
+                        
                     var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        Bill bill = new()
-                        {
-                            OrderId = reader.GetInt32(0),
-                            ProductTypeId = reader.GetInt32(1),
-                            Price = reader.GetDouble(2),
-                            Timestamp = reader.GetDateTime(3)
-                        };
+                        List<int> list = reader.GetFieldValue<List<int>>(3);
+                        Bill bill = new(reader.GetInt32(0), reader.GetGuid(1), reader.GetInt32(2), list, reader.GetDouble(4), reader.GetDateTime(5), reader.GetBoolean(6), reader.GetDateTime(7));
+
+       
                         billList.Add(bill);
                     };
                     reader.Close();
@@ -41,7 +41,7 @@ namespace BillMicroService.Services
             Console.WriteLine(billList);
             return billList;
         }
-        public int CreateBill(IConfiguration config, Bill arguments)
+        public int CreateBill(IConfiguration config, Bill bill)
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
@@ -53,12 +53,18 @@ namespace BillMicroService.Services
                 Console.Out.WriteLine("   - Opening connection");
                 conn.Open();
 
-                using (var command = new NpgsqlCommand("INSERT INTO bill (product_type_id, price, timestamp) VALUES (@t0, @t1, @t2)", conn))
+                
+                var query = $"INSERT INTO bill (customer_id, movie_id_list, product_type_id, price, timestamp_created, timestamp_updated) " +
+                            $"SELECT @t0 as customer_id, @t2 as movie_id_list, pr.product_type_id, price*@t3, NOW() as timestamp_created, NOW() as timestamp_updated " +
+                            $"FROM( SELECT product_type_id, price FROM product_type WHERE product_type_id = @t1) as pr";
+
+                using (var command = new NpgsqlCommand(query, conn))
                 {
 
-                    command.Parameters.AddWithValue("t0", arguments.ProductTypeId);
-                    command.Parameters.AddWithValue("t1", arguments.Price);
-                    command.Parameters.AddWithValue("t2", DateTime.Now);
+                    command.Parameters.AddWithValue("t0", bill.CustomerId);
+                    command.Parameters.AddWithValue("t1", bill.ProductTypeId);
+                    command.Parameters.AddWithValue("t2", bill.MovieIdList);
+                    command.Parameters.AddWithValue("t3", bill.MovieIdList.Count);
 
                     orderCreated = command.ExecuteNonQuery();
                 }
@@ -67,16 +73,34 @@ namespace BillMicroService.Services
             }
             return orderCreated;
         }
-    
 
-        public int UpdatePayment(IConfiguration config)
+        public int UpdateCustomerBill(IConfiguration config, Bill bill)
         {
-            throw new NotImplementedException();
-        }
+            string connString = config.GetConnectionString("DefaultConnection");
 
-        List<Bill> IBillService.UpdatePayment(IConfiguration config)
-        {
-            throw new NotImplementedException();
+            Console.Out.WriteLine(" - CreateBill() enabled");
+            int billUpdated = -1;
+
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                Console.Out.WriteLine("   - Opening connection");
+                conn.Open();
+
+
+                var query = $"UPDATE bill SET status = @t1, timestamp_updated = NOW() WHERE order_id = @t0";
+
+                using (var command = new NpgsqlCommand(query, conn))
+                {
+
+                    command.Parameters.AddWithValue("t0", bill.OrderId);
+                    command.Parameters.AddWithValue("t1", bill.Status);
+
+                    billUpdated = command.ExecuteNonQuery();
+                }
+                Console.Out.WriteLine("   - Closing connection");
+                conn.Close();
+            }
+            return billUpdated;
         }
     }
 }

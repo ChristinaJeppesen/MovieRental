@@ -109,10 +109,10 @@ namespace MessageMicroService.Controller
 
 
         // bills 
-        [HttpGet("bills")] // how about promise??????
-        public async Task<List<Bill>> GetCustomerBills() //await not working unless async function
+        [HttpGet("{customerId}/bills")] // how about promise??????
+        public async Task<List<Bill>> GetCustomerBills(Guid customerId) //await not working unless async function
         {
-            _messageService.GetCustomerBills();
+            _messageService.GetCustomerBills(customerId);
 
             Task<string> billMessage = ListenForResult();
 
@@ -120,23 +120,34 @@ namespace MessageMicroService.Controller
 
         }
         
-        [HttpPost("bills")]  // how about promise??????
-        public async Task<string> PostBill(Bill bill) //await not working unless async function
+        [HttpPost("{customerId}/bills")]  // how about promise??????
+        public async Task<string> CreateCustomerBill(Guid customerId, Bill bill) //await not working unless async function
         {
             _logger.LogInformation(bill.Price.ToString());
 
-            _messageService.CreateBill(bill);
+            bill.CustomerId = customerId;
+            _messageService.CreateCustomerBill(bill);
 
             Task<string> billMessageResponse = ListenForResult();
 
             return JsonConvert.DeserializeObject<string>(await billMessageResponse);
+        }
+        [HttpPut("{customerId}/bills")] // how about promise??????
+        public async Task<string> UpdateCustomerBill(Guid customerId, Bill bill) //await not working unless async function
+        {
+            bill.CustomerId = customerId;
+            _messageService.UpdateCustomerBill(bill);
+
+            Task<string> billMessage = ListenForResult();
+
+            return JsonConvert.DeserializeObject<string>(await billMessage);
         }
 
 
         Task<string> ListenForResult() //await not working unless async function
         {
             _logger.LogInformation($"waiting for return messages.");
-            System.Threading.Thread.Sleep(2000);
+            //System.Threading.Thread.Sleep(2000);
 
             return Task.FromResult(_messageService.GetResults());
         }

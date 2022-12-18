@@ -5,8 +5,8 @@ namespace BillMicroService.Services
 {
     public interface IBillService
     {
-        int CreateBill(IConfiguration config, Bill arguments);
-        List<Bill> GetCustomerBillList(IConfiguration config);
-        List<Bill> UpdatePayment(IConfiguration config);
+        List<Bill> GetCustomerBillList(IConfiguration config, Guid customerId);
+        int CreateBill(IConfiguration config, Bill bill);
+        int UpdateCustomerBill(IConfiguration config, Bill bill);
     }
 }

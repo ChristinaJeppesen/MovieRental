@@ -24,21 +24,25 @@ namespace BillMicroService.Controller
         {
             Console.WriteLine(" - Message Recieved");
 
-            Message<Bill>? message = JsonSerializer.Deserialize<Message<Bill>>(inMessage);
             dynamic response = null;
+
+            Message<dynamic>? message = JsonSerializer.Deserialize<Message<dynamic>>(inMessage);
 
             if (message.FunctionToExecute == "GetCustomerBills")
             {
-                response = _billService.GetCustomerBillList(_config);
+                Guid customerId = JsonSerializer.Deserialize<Guid>(message.Arguments);
+                response = _billService.GetCustomerBillList(_config, customerId);
 
             }
-            else if (message.FunctionToExecute == "CreateBill")
+            else if (message.FunctionToExecute == "CreateCustomerBill")
             {
-                response = _billService.CreateBill(_config, message.Arguments);
+                Bill bill = JsonSerializer.Deserialize<Bill>(message.Arguments);
+                response = _billService.CreateBill(_config, bill);
             }
-            else if (message.FunctionToExecute == "UpdatePayment")
+            else if (message.FunctionToExecute == "UpdateCustomerBill")
             {
-                response =_billService.UpdatePayment(_config);
+                Bill bill = JsonSerializer.Deserialize<Bill>(message.Arguments);
+                response =_billService.UpdateCustomerBill(_config, bill);
 
             }
             //string restlist = JsonSerializer.Serialize(response);

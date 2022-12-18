@@ -98,9 +98,10 @@
     },
 
     // Next Service can be added below
+    // Bills
     {
-      "UpstreamPathTemplate": "/api/bills",
-      "UpstreamHttpMethods": [ "Get, Post" ],
+      "UpstreamPathTemplate": "/api/{customerId}/bills",
+      "UpstreamHttpMethods": [ "Get, Post", "Put" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -108,7 +109,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/bills"
+      "DownstreamPathTemplate": "/api/{customerId}/bills"
     },
     {
       "UpstreamPathTemplate": "/api/user/{userId}/bills",

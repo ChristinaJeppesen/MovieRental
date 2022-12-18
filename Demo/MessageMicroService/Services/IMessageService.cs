@@ -17,9 +17,10 @@ namespace MessageMicroService.Services
 
 
         // Bills 
-        public void CreateBill(Bill bill);
-        public void GetCustomerBills();
-        
+        public void CreateCustomerBill(Bill bill);
+        public void GetCustomerBills(Guid customerId);
+        public void UpdateCustomerBill(Bill bill);
+
         // Results 
         public string GetResults();
     }
