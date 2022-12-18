@@ -21,6 +21,12 @@ namespace MessageMicroService.Services
             message.PublishMessageRMQ();
         }
 
+        public void UpdateCustomerInformation(Customer customer)
+        {
+            Message<Customer> message = new(1, CustomerServiceListenQueueName, CustomerServicePublishQueueName, "UpdateCustomerInformation", customer);
+            message.PublishMessageRMQ();
+        }
+
         public void AddMovieToWatchList(WatchList watchlist)
         {
             Message<WatchList> message = new(1, CustomerServiceListenQueueName, CustomerServicePublishQueueName, "AddMovieToWatchList", watchlist);
@@ -30,11 +36,15 @@ namespace MessageMicroService.Services
 
         public void GetCustomerWatchListById(Guid customerId)
         {
-
             Message<Guid> message = new(1, CustomerServiceListenQueueName, "movies", "GetCustomerWatchListById", customerId);
             message.PublishMessageRMQ();
             
+        }
 
+        public void GetCustomerHistoryList(Guid customerId)
+        {
+            Message<Guid> message = new(1, CustomerServiceListenQueueName, "movies", "GetCustomerHistoryList", customerId);
+            message.PublishMessageRMQ();
         }
     }
 }

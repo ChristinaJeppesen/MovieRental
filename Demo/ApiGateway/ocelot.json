@@ -28,6 +28,31 @@
       "DownstreamPathTemplate": "/api/customer/{customer_id}"
     },
 
+    {
+      "UpstreamPathTemplate": "/api/customer/info/",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messagemicroservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/customer/info/"
+    },
+    {
+      "UpstreamPathTemplate": "/api/customer/{customerId}/historylist",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "messagemicroservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/customer/{customerId}/historylist"
+    },
+
     // req-> customer wants to see watch-list in readable format, return: list of movie titles
     {
       "UpstreamPathTemplate": "/api/{customerId}/watchlist",

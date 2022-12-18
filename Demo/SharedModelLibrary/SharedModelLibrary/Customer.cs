@@ -19,6 +19,9 @@ namespace SharedModelLibrary
             Email = email;
         }
 
+        public Customer()
+        {
+        }
     }
 }
 

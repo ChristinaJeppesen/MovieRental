@@ -64,11 +64,26 @@ namespace CustomerMicroService.Controllers
                 response = new Message<List<int>>(1, "movies", "results", "GetMovieTitles", movieIdList);
 
             }
+            else if (customerMessage.FunctionToExecute == "GetCustomerHistoryList")
+            {
+                Guid customerId = JsonSerializer.Deserialize<Guid>(customerMessage.Arguments);
 
+                var movieIdList = _customerMessage.GetCustomerHistoryList(_config, customerId);
+
+                response = new Message<List<HistoryItem>>(1, "movies", "results", "ConstructHistoryList", movieIdList);
+
+            }
+            else if (customerMessage.FunctionToExecute == "UpdateCustomerInformation")
+            {
+                Customer customer = JsonSerializer.Deserialize<Customer>(customerMessage.Arguments);
+
+                response = _customerMessage.UpdateCustomerInformation(_config, customer);
+            }
 
             return (customerMessage.PublishQueueName, JsonSerializer.Serialize(response));
 
         }
+        
 
     }
 }

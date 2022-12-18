@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using CustomerMicroService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using SharedModelLibrary;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CustomerMicroService.Services
 {
@@ -91,6 +93,75 @@ namespace CustomerMicroService.Services
 
         }
 
+        public int UpdateCustomerInformation(IConfiguration config, Customer customer)
+        {
+            Customer cur_customer_info = new Customer ();
+            Console.WriteLine("CustomerService: UpdateCustomerInformation()");
+            var result = -1;
+            var customer_id = customer.Id;
+            var new_first_name = customer.FirstName;
+            var new_last_name = customer.LastName;
+            var new_email = customer.Email;
+            string conn = config.GetConnectionString("DefaultConnection");
+
+            using (NpgsqlConnection myCon = new NpgsqlConnection(conn))
+            {
+                myCon.Open();
+                using (NpgsqlCommand command = new NpgsqlCommand($"SELECT * FROM customer WHERE customer_id='{customer_id}'", myCon))
+                {
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Customer ccustomer = new(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), reader.GetString(3));
+                        cur_customer_info = ccustomer;
+                    }
+
+                    reader.Close();
+                }
+            }
+         
+            string firstname = new_first_name == "" ? cur_customer_info.FirstName : new_first_name;
+            string lastname = new_last_name == "" ? cur_customer_info.LastName : new_last_name;
+            string email = new_email == "" ? cur_customer_info.Email : new_email;
+
+            var query = $"UPDATE customer set first_name='{firstname}', last_name='{lastname}', email='{email}' WHERE customer_id='{customer_id}' ";
+
+            using (NpgsqlConnection myCon = new NpgsqlConnection(conn))
+            {
+                Console.WriteLine("Opening connection");
+                myCon.Open();
+                using (NpgsqlCommand command = new NpgsqlCommand(query, myCon))
+                {
+                    result = command.ExecuteNonQuery();
+                }
+            }
+            return result;
+
+        }
+
+        public List<HistoryItem> GetCustomerHistoryList(IConfiguration config, Guid customer_id)
+        {
+            List<HistoryItem> result = new();
+            string conn = config.GetConnectionString("DefaultConnection");
+            using (NpgsqlConnection myCon = new NpgsqlConnection(conn))
+            {
+                myCon.Open();
+                using (NpgsqlCommand command = new NpgsqlCommand($"SELECT movie_id, timestamp FROM history_list WHERE customer_id='{customer_id}'", myCon))
+                {
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        HistoryItem temp = new(reader.GetInt32(0), reader.GetDateTime(1));
+                        result.Add(temp);
+                    }
+
+                    reader.Close();
+                }
+            }
+            return result;
+        }
+ 
+
 
         /*
 
@@ -115,9 +186,9 @@ namespace CustomerMicroService.Services
                     Console.Out.WriteLine(String.Format("Number of rows inserted={0}", nRows));
                 }
             }
+
+        }
         */
-
-
     }
 }
 

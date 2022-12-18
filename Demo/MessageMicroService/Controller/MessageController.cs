@@ -61,6 +61,19 @@ namespace MessageMicroService.Controller
             return JsonConvert.DeserializeObject<List<Movie>>(await movieMessageResponse);
         }
 
+
+        [HttpPut("customer/info/")] // how about promise??????
+        public async Task<int> UpdateCustomerInformation([FromBody] Customer customer) //await not working unless async function
+        {
+            Console.WriteLine("Endpoint reached");
+            _messageService.UpdateCustomerInformation(customer);
+
+            Task<string> customerMessageResponse = ListenForResult();
+
+            return JsonConvert.DeserializeObject<int>(await customerMessageResponse);
+
+        }
+
         [HttpGet("customers")] // how about promise??????
         public async Task<List<Customer>> GetCustomers() //await not working unless async function
         {
@@ -72,6 +85,18 @@ namespace MessageMicroService.Controller
             return JsonConvert.DeserializeObject<List<Customer>>(await customerMessageResponse);
 
         }
+
+        [HttpGet("customer/{customerId}/historylist")]
+        public async Task<List<HistoryItem>> GetCustomerHistoryList(Guid customerId)
+        {
+            _messageService.GetCustomerHistoryList(customerId);
+
+            Task<string> customerMessageResponse = ListenForResult();
+
+            return JsonConvert.DeserializeObject<List<HistoryItem>>(await customerMessageResponse);
+
+        }
+
         [HttpGet("{customerId}/watchlist")]
         public async Task<List<string>> GetCustomerWatchList(Guid customerId)
         {
