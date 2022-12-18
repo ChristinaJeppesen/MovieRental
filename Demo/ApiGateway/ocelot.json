@@ -41,7 +41,7 @@
       "DownstreamPathTemplate": "/api/customer/info/"
     },
     {
-      "UpstreamPathTemplate": "/api/{customerId}/historylist",
+      "UpstreamPathTemplate": "/api/customer/{customerId}/historylist",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -50,7 +50,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/{customerId}/historylist"
+      "DownstreamPathTemplate": "/api/customer/{customerId}/historylist"
     },
 
     // req-> customer wants to see watch-list in readable format, return: list of movie titles

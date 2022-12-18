@@ -86,7 +86,7 @@ namespace MessageMicroService.Controller
 
         }
 
-        [HttpGet("{customerId}/historylist")]
+        [HttpGet("customer/{customerId}/historylist")]
         public async Task<List<HistoryItem>> GetCustomerHistoryList(Guid customerId)
         {
             _messageService.GetCustomerHistoryList(customerId);
