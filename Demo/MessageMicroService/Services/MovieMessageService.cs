@@ -15,7 +15,7 @@ namespace MessageMicroService.Services
         public void GetAllMovieList()
         {
 
-            Message<string> message = new(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "GetAllMovies", null);
+            Message<string> message = new(MovieServiceListenQueueName, MovieServicePublishQueueName, "GetAllMovies", null);
             message.PublishMessageRMQ();
             
         }
@@ -23,14 +23,14 @@ namespace MessageMicroService.Services
         public void GetFilteredMovieList(string arguments)
         {
 
-            Message<string> message = new(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "BrowseMovies", arguments);
+            Message<string> message = new(MovieServiceListenQueueName, MovieServicePublishQueueName, "BrowseMovies", arguments);
             message.PublishMessageRMQ();
         }
 
         public void GetMovieById(int movieId)
         {
 
-            Message<int> message = new(1, MovieServiceListenQueueName, MovieServicePublishQueueName, "GetMovieById", movieId);
+            Message<int> message = new(MovieServiceListenQueueName, MovieServicePublishQueueName, "GetMovieById", movieId);
             message.PublishMessageRMQ();
         }
     }

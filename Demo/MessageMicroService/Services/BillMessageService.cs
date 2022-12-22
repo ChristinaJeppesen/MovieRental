@@ -16,18 +16,18 @@ namespace MessageMicroService.Services
 
         public void GetCustomerBills(Guid customerId)
         {
-            Message<Guid> message = new Message<Guid>(1, BillServiceListenQueueName, BillServicePublishQueueName, "GetCustomerBills", customerId);
+            Message<Guid> message = new Message<Guid>(BillServiceListenQueueName, BillServicePublishQueueName, "GetCustomerBills", customerId);
             message.PublishMessageRMQ();
         }
         public void CreateCustomerBill(Bill bill)
         {
-            Message<Bill> message = new Message<Bill>(1, BillServiceListenQueueName, "customers", "CreateCustomerBill", bill);
+            Message<Bill> message = new Message<Bill>(BillServiceListenQueueName, "customers", "CreateCustomerBill", bill);
             message.PublishMessageRMQ();
         }
 
         public void UpdateCustomerBill(Bill bill)
         {
-            Message<Bill> message = new Message<Bill>(1, BillServiceListenQueueName, BillServicePublishQueueName, "UpdateCustomerBill", bill);
+            Message<Bill> message = new Message<Bill>(BillServiceListenQueueName, BillServicePublishQueueName, "UpdateCustomerBill", bill);
             message.PublishMessageRMQ();
         }
     }

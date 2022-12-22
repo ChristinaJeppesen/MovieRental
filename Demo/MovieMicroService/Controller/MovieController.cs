@@ -45,17 +45,7 @@ namespace MovieMicroService.Controller
             else if (movieMessage.FunctionToExecute == "GetMovieTitles")
             {
                 List<int> movieIdList = JsonSerializer.Deserialize<List<int>>(movieMessage.Arguments);
-
-
                 response = _movieService.GetMovieTitles(_config, movieIdList);
-
-                foreach (Movie element in response)
-                {
-                    Console.Write($"console: {element.Title} ");
-                }
-
-
-
             }
             else if (movieMessage.FunctionToExecute == "ConstructHistoryList")
             {

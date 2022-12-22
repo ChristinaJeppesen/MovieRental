@@ -10,16 +10,14 @@ namespace SharedModelLibrary
     public class Message<T>
     {
         private readonly string RMQHostName = "rabbitmq";
-        public int Id { get; set; } //like request id
         public string ListenQueueName { get; set; }
         public string PublishQueueName { get; set; }
         public string FunctionToExecute { get; set; }
         public T? Arguments { get; set; }
 
         // Different ways of constructing a Message object
-        public Message(int id, string listenQueueName, string publishQueueName, string functionToExecute, T? arguments)
+        public Message(string listenQueueName, string publishQueueName, string functionToExecute, T? arguments)
         {
-            Id = id;
             ListenQueueName = listenQueueName;
             PublishQueueName = publishQueueName;
             FunctionToExecute = functionToExecute;
@@ -43,7 +41,7 @@ namespace SharedModelLibrary
                                      arguments: null);
 
                 // TODO ID should come from ocelot if needed else remove
-                var message = new Message<T>(1, ListenQueueName, PublishQueueName, FunctionToExecute, Arguments);
+                var message = new Message<T>(ListenQueueName, PublishQueueName, FunctionToExecute, Arguments);
 
                 var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 

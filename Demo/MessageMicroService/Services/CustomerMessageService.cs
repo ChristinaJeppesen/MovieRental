@@ -17,33 +17,33 @@ namespace MessageMicroService.Services
 
         public void GetAllCustomers()
         {
-            Message<string> message = new(1, CustomerServiceListenQueueName, CustomerServicePublishQueueName, "GetAllCustomers", null);
+            Message<string> message = new(CustomerServiceListenQueueName, CustomerServicePublishQueueName, "GetAllCustomers", null);
             message.PublishMessageRMQ();
         }
 
         public void UpdateCustomerInformation(Customer customer)
         {
-            Message<Customer> message = new(1, CustomerServiceListenQueueName, CustomerServicePublishQueueName, "UpdateCustomerInformation", customer);
+            Message<Customer> message = new(CustomerServiceListenQueueName, CustomerServicePublishQueueName, "UpdateCustomerInformation", customer);
             message.PublishMessageRMQ();
         }
 
         public void AddMovieToWatchList(WatchList watchlist)
         {
-            Message<WatchList> message = new(1, CustomerServiceListenQueueName, CustomerServicePublishQueueName, "AddMovieToWatchList", watchlist);
+            Message<WatchList> message = new(CustomerServiceListenQueueName, CustomerServicePublishQueueName, "AddMovieToWatchList", watchlist);
             message.PublishMessageRMQ();
             
         }
 
         public void GetCustomerWatchListById(Guid customerId)
         {
-            Message<Guid> message = new(1, CustomerServiceListenQueueName, "movies", "GetCustomerWatchListById", customerId);
+            Message<Guid> message = new(CustomerServiceListenQueueName, "movies", "GetCustomerWatchListById", customerId);
             message.PublishMessageRMQ();
             
         }
 
         public void GetCustomerHistoryList(Guid customerId)
         {
-            Message<Guid> message = new(1, CustomerServiceListenQueueName, "movies", "GetCustomerHistoryList", customerId);
+            Message<Guid> message = new(CustomerServiceListenQueueName, "movies", "GetCustomerHistoryList", customerId);
             message.PublishMessageRMQ();
         }
     }

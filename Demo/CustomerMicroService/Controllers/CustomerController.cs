@@ -51,17 +51,16 @@ namespace CustomerMicroService.Controllers
             {
 
                 WatchList w = JsonSerializer.Deserialize<WatchList>(customerMessage.Arguments);
-
+                
                 response = _customerMessage.AddMovieToWatchList(_config, w);
 
             }
             else if (customerMessage.FunctionToExecute == "GetCustomerWatchListById")
             {
                 Guid customerId = JsonSerializer.Deserialize<Guid>(customerMessage.Arguments);
-
+                
                 var movieIdList = _customerMessage.GetCustomerWatchListById(_config, customerId);
-
-                response = new Message<List<int>>(1, "movies", "results", "GetMovieTitles", movieIdList);
+                response = new Message<List<int>>("movies", "results", "GetMovieTitles", movieIdList);
 
             }
             else if (customerMessage.FunctionToExecute == "GetCustomerHistoryList")
@@ -69,8 +68,7 @@ namespace CustomerMicroService.Controllers
                 Guid customerId = JsonSerializer.Deserialize<Guid>(customerMessage.Arguments);
 
                 var movieIdList = _customerMessage.GetCustomerHistoryList(_config, customerId);
-
-                response = new Message<List<HistoryItem>>(1, "movies", "results", "ConstructHistoryList", movieIdList);
+                response = new Message<List<HistoryItem>>("movies", "results", "ConstructHistoryList", movieIdList);
 
             }
             else if (customerMessage.FunctionToExecute == "UpdateCustomerInformation")
