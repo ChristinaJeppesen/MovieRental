@@ -97,21 +97,21 @@ namespace MessageMicroService.Controller
 
         }
 
-        [HttpGet("{customerId}/watchlist")]
-        public async Task<List<string>> GetCustomerWatchList(Guid customerId)
+        [HttpGet("customer/{customerId}/watchlist")]
+        public async Task<List<Movie>> GetCustomerWatchList(Guid customerId)
         {
             _messageService.GetCustomerWatchListById(customerId);
 
             Task<string> customerMessageResponse = ListenForResult();
 
-            return JsonConvert.DeserializeObject<List<string>>(await customerMessageResponse);
+            return JsonConvert.DeserializeObject<List<Movie>>(await customerMessageResponse);
 
         }
 
 
 
         [HttpPost("watchlist")]
-        public async Task<HttpStatusCode> AddMovieToWatchList([FromBody] WatchList watchlist ) //await not working unless async function
+        public async Task<HttpStatusCode> AddMovieToWatchList([FromBody] WatchList watchlist ) 
         {
             Console.WriteLine("Endpoint reached");
             _messageService.AddMovieToWatchList(watchlist);
@@ -120,22 +120,12 @@ namespace MessageMicroService.Controller
 
             return HttpStatusCode.OK; 
         }
-        /*async Task<string> ListenForCustomerResult() //await not working unless async function
-        {
-            _logger.LogInformation($"waiting for return messages.");
-            System.Threading.Thread.Sleep(2000);
-
-            return _messageCustomer.GetResults();
-        }*/
-
-
-
-
+        
 
 
         // bills 
-        [HttpGet("{customerId}/bills")] // how about promise??????
-        public async Task<List<Bill>> GetCustomerBills(Guid customerId) //await not working unless async function
+        [HttpGet("customer/{customerId}/bills")] 
+        public async Task<List<Bill>> GetCustomerBills(Guid customerId) 
         {
             _messageService.GetCustomerBills(customerId);
 
@@ -145,8 +135,8 @@ namespace MessageMicroService.Controller
 
         }
         
-        [HttpPost("{customerId}/bills")]  // how about promise??????
-        public async Task<string> CreateCustomerBill(Guid customerId, Bill bill) //await not working unless async function
+        [HttpPost("customer/{customerId}/bills")]  
+        public async Task<string> CreateCustomerBill(Guid customerId, Bill bill) 
         {
             _logger.LogInformation(bill.Price.ToString());
 
@@ -157,8 +147,8 @@ namespace MessageMicroService.Controller
 
             return JsonConvert.DeserializeObject<string>(await billMessageResponse);
         }
-        [HttpPut("{customerId}/bills")] // how about promise??????
-        public async Task<string> UpdateCustomerBill(Guid customerId, Bill bill) //await not working unless async function
+        [HttpPut("customer/{customerId}/bills")] 
+        public async Task<string> UpdateCustomerBill(Guid customerId, Bill bill) 
         {
             bill.CustomerId = customerId;
             _messageService.UpdateCustomerBill(bill);
@@ -169,10 +159,10 @@ namespace MessageMicroService.Controller
         }
 
 
-        Task<string> ListenForResult() //await not working unless async function
+        Task<string> ListenForResult() 
         {
             _logger.LogInformation($"waiting for return messages.");
-            //System.Threading.Thread.Sleep(2000);
+            System.Threading.Thread.Sleep(2000);
 
             return Task.FromResult(_messageService.GetResults());
         }

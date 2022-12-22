@@ -71,6 +71,7 @@ namespace BillMicroService.Services
                 Console.Out.WriteLine("   - Closing connection");
                 conn.Close();
             }
+
             return orderCreated;
         }
 

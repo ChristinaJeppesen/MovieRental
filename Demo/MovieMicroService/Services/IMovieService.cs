@@ -13,7 +13,7 @@ namespace MovieMicroService.Services
         public List<Movie> GetAllMovies(IConfiguration config);
         public List<Movie> GetFilteredMovies(IConfiguration config, string pattern);
         public List<Movie> GetMovieById(IConfiguration config, int movieId);
-        public List<(int, string)> GetMovieTitles(IConfiguration config, List<int> movieIdList);
+        public List<Movie> GetMovieTitles(IConfiguration config, List<int> movieIdList);
         public List<HistoryItem> ConstructHistoryList(IConfiguration config, List<HistoryItem> movieIdList);
 
     }

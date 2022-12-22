@@ -24,6 +24,7 @@ namespace CustomerMicroService.Services
         List<int> GetCustomerWatchListById(IConfiguration config, Guid customerId);
         int UpdateCustomerInformation(IConfiguration config, Customer customer);
         public List<HistoryItem> GetCustomerHistoryList(IConfiguration config, Guid customerId);
+        public int AddHistoryListItems(IConfiguration config, CustomerMovieList historyBlock);
     }
 }
 

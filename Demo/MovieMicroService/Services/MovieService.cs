@@ -141,28 +141,33 @@ namespace MovieMicroService.Services
             return movieList;
         }
 
-        public List<(int, string)> GetMovieTitles(IConfiguration config, List<int> movieIdList)
+        public List<Movie> GetMovieTitles(IConfiguration config, List<int> movieIdList)
         {
             string connString = config.GetConnectionString("DefaultConnection");
 
             Console.Out.WriteLine(" - GetMovieTitles()");
-            var movieTitleList = new List<(int,string)>();
+            var movieTitleList = new List<Movie>();
 
-            using (var conn = new NpgsqlConnection(connString))
+            if (movieIdList.Count != 0)
             {
-                Console.Out.WriteLine("   - Opening connection");
-                conn.Open();
-
-                var sqlMovieIdList = string.Join(",", movieIdList.Select(i => $"{i}"));
-                using (var command = new NpgsqlCommand($"SELECT movie_id, title FROM movie WHERE movie_id IN ({sqlMovieIdList})", conn))
+                using (var conn = new NpgsqlConnection(connString))
                 {
-                    var reader = command.ExecuteReader();
-                    while (reader.Read())
+                    Console.Out.WriteLine("   - Opening connection");
+                    conn.Open();
+
+                    var sqlMovieIdList = string.Join(",", movieIdList.Select(i => $"{i}"));
+                    using (var command = new NpgsqlCommand($"SELECT movie_id, title FROM movie WHERE movie_id IN ({sqlMovieIdList})", conn))
                     {
-                        movieTitleList.Add((reader.GetInt32(0), reader.GetString(1)));
-                    };
-                    reader.Close();
-                    Console.Out.WriteLine("   - Connection closed");
+                            var reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            Movie movie = new(reader.GetInt32(0), reader.GetString(1));
+                            movieTitleList.Add(movie);
+                            Console.WriteLine(reader.GetString(1));
+                        };
+                        reader.Close();
+                        Console.Out.WriteLine("   - Connection closed");
+                    }
                 }
             }
             return movieTitleList;
@@ -176,18 +181,24 @@ namespace MovieMicroService.Services
                 movieidList.Add(item.MovieId);
             }
 
-            var titles = GetMovieTitles(config, movieidList);
+            var movieList = GetMovieTitles(config, movieidList);
+
             var result = new List<HistoryItem>();
-            var res = titles.ToDictionary(x => x.Item1, x => x.Item2);
+            //var res = titles.ToDictionary(x => x.Item1, x => x.Item2);
 
             foreach (HistoryItem item in history)
             {
-                if (res.ContainsKey(item.MovieId))
+                foreach (var movie in movieList)
                 {
-                    string temp = res[item.MovieId];
-                    HistoryItem value = new(item.MovieId, temp, item.Timestamp);
-                    result.Add(value);
-                } 
+                    if(movie.Id == item.MovieId)
+                    {
+                        HistoryItem value = new(item.MovieId, movie.Title, item.Timestamp);
+                        result.Add(value);
+
+                    }
+
+                }
+              
             }
             return result;
         }

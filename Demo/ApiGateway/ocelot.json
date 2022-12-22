@@ -55,7 +55,7 @@
 
     // req-> customer wants to see watch-list in readable format, return: list of movie titles
     {
-      "UpstreamPathTemplate": "/api/{customerId}/watchlist",
+      "UpstreamPathTemplate": "/api/customer/{customerId}/watchlist",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -64,11 +64,11 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/{customerId}/watchlist"
+      "DownstreamPathTemplate": "/api/customer/{customerId}/watchlist"
     },
 
     {
-      "UpstreamPathTemplate": "/api/watchlist",
+      "UpstreamPathTemplate": "/api/watchlist", // should this be corrected?? take id in url not in body?
       "UpstreamHttpMethods": [ "Post" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -125,7 +125,7 @@
     // Next Service can be added below
     // Bills
     {
-      "UpstreamPathTemplate": "/api/{customerId}/bills",
+      "UpstreamPathTemplate": "/api/customer/{customerId}/bills",
       "UpstreamHttpMethods": [ "Get, Post", "Put" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -134,8 +134,11 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/{customerId}/bills"
+      "DownstreamPathTemplate": "/api/customer/{customerId}/bills"
     },
+
+
+    // not used
     {
       "UpstreamPathTemplate": "/api/user/{userId}/bills",
       "UpstreamHttpMethods": [ "Put" ],

@@ -21,7 +21,7 @@ namespace MessageMicroService.Services
         }
         public void CreateCustomerBill(Bill bill)
         {
-            Message<Bill> message = new Message<Bill>(1, BillServiceListenQueueName, BillServicePublishQueueName, "CreateCustomerBill", bill);
+            Message<Bill> message = new Message<Bill>(1, BillServiceListenQueueName, "customers", "CreateCustomerBill", bill);
             message.PublishMessageRMQ();
         }
 

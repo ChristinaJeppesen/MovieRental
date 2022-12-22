@@ -79,6 +79,12 @@ namespace CustomerMicroService.Controllers
 
                 response = _customerMessage.UpdateCustomerInformation(_config, customer);
             }
+            else if (customerMessage.FunctionToExecute == "CreateHistoryListItems")
+            {
+                CustomerMovieList billResultItems = JsonSerializer.Deserialize<CustomerMovieList>(customerMessage.Arguments);
+                
+                response = _customerMessage.AddHistoryListItems(_config, billResultItems);
+            }
 
             return (customerMessage.PublishQueueName, JsonSerializer.Serialize(response));
 

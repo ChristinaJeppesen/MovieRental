@@ -1,4 +1,6 @@
-﻿namespace SharedModelLibrary
+﻿using System.Text.Json.Serialization;
+
+namespace SharedModelLibrary
 {
     public class Movie
     {
@@ -12,7 +14,14 @@
         public string Category { get; set; }
         public double Price { get; set; }
 
-
-
+        [JsonConstructor]
+        public Movie()
+        {
+        }
+        public Movie(int id, string title)
+        {
+            Id = id;
+            Title = title;
+        }
     }
 }

@@ -32,20 +32,18 @@ namespace SharedModelLibrary
             factory.Password = "guest";
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
-            //var inChannel = connection.CreateModel();
-            //var outChannel = connection.CreateModel();
 
             channel.BasicQos(0, 1, false);
 
-            //outChannel.BasicQos(0, 1, false); // dosent seem to make diff
+
             channel.QueueDeclare(queue: "results",
-                                   durable: false, // true if sender's durable is true!!!
+                                   durable: false, 
                                    exclusive: false,
                                    autoDelete: false,
                                    arguments: null);
 
             channel.QueueDeclare(queue: ListenQueueName,
-                                   durable: false, // true if sender's durable is true!!!
+                                   durable: false, 
                                    exclusive: false,
                                    autoDelete: false,
                                    arguments: null);
@@ -60,12 +58,7 @@ namespace SharedModelLibrary
                 var outMessage = _controller.MessageReceived(inMessage);
                 var outBody = Encoding.UTF8.GetBytes(outMessage.Item2);
 
-                channel.QueueDeclare(queue: outMessage.Item1, // dosent seem to make diff??
-                                   durable: false, // true if sender's durable is true!!!
-                                   exclusive: false,
-                                   autoDelete: false,
-                                   arguments: null);
-
+                //Thread.Sleep(2000);
                 channel.BasicPublish(exchange: "", routingKey: outMessage.Item1, basicProperties: null, body: outBody);
 
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);

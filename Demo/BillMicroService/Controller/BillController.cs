@@ -37,7 +37,10 @@ namespace BillMicroService.Controller
             else if (message.FunctionToExecute == "CreateCustomerBill")
             {
                 Bill bill = JsonSerializer.Deserialize<Bill>(message.Arguments);
-                response = _billService.CreateBill(_config, bill);
+                int result = _billService.CreateBill(_config, bill);
+                CustomerMovieList block = new CustomerMovieList(bill.CustomerId, bill.MovieIdList);
+                response = new Message<CustomerMovieList>(1, "customers", "results", "CreateHistoryListItems", block);
+
             }
             else if (message.FunctionToExecute == "UpdateCustomerBill")
             {

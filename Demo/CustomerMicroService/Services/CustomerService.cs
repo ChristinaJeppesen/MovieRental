@@ -138,6 +138,40 @@ namespace CustomerMicroService.Services
             return result;
 
         }
+        public int AddHistoryListItems(IConfiguration config,CustomerMovieList historyBlock)
+        {
+            
+            string connString = config.GetConnectionString("DefaultConnection");
+
+            Console.Out.WriteLine(" - AddHistoryListItems() enabled");
+            int historyListItemsCreated = -1;
+
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                Console.Out.WriteLine("   - Opening connection");
+                conn.Open();
+
+
+                var query = $"INSERT INTO history_list (customer_id, movie_id, timestamp) " +
+                            $"VALUES (@t0, @t1, NOW())";
+
+                foreach (var movieId in historyBlock.MovieIdList)
+                {
+                
+                    using (var command = new NpgsqlCommand(query, conn))
+                    {
+
+                        command.Parameters.AddWithValue("t0", historyBlock.CustomerId);
+                        command.Parameters.AddWithValue("t1", movieId);
+
+                        historyListItemsCreated = command.ExecuteNonQuery();
+                    }
+                }
+                Console.Out.WriteLine("   - Closing connection");
+                conn.Close();
+            }
+            return historyListItemsCreated;
+        }
 
         public List<HistoryItem> GetCustomerHistoryList(IConfiguration config, Guid customer_id)
         {
