@@ -24,9 +24,7 @@ builder.Services.AddDbContext<BillDBContext>(options => {
 });
 
 
-//builder.Services.AddSingleton<IMovieService, Service>(); //  created the first time they are requested
-
-builder.Services.AddSingleton<IBillService, BillService>(); // once per request
+builder.Services.AddSingleton<IBillService, BillService>(); 
 builder.Services.AddSingleton<BillController>();
 
 builder.Services.AddHostedService<BillWorker>(sp =>
@@ -36,8 +34,6 @@ builder.Services.AddHostedService<BillWorker>(sp =>
     return new BillWorker(billController, "bills");
 
 });
-
-//builder.Services.AddTransient<IMovieService, Service>(); // no difference?
 
 builder.Services.AddControllers();
 

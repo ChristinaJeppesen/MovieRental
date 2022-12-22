@@ -1,5 +1,4 @@
-﻿//using BillMicroService.Models;
-using SharedModelLibrary;
+﻿using SharedModelLibrary;
 
 namespace BillMicroService.Services
 {

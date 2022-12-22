@@ -15,7 +15,6 @@ namespace SharedModelLibrary
         public string FunctionToExecute { get; set; }
         public T? Arguments { get; set; }
 
-        // Different ways of constructing a Message object
         public Message(string listenQueueName, string publishQueueName, string functionToExecute, T? arguments)
         {
             ListenQueueName = listenQueueName;

@@ -1,6 +1,6 @@
 ﻿{
   "Routes": [
-    //Customer WEB API
+    //Customer 
 
     {
       "UpstreamPathTemplate": "/api/customers",
@@ -53,7 +53,6 @@
       "DownstreamPathTemplate": "/api/customer/{customerId}/historylist"
     },
 
-    // req-> customer wants to see watch-list in readable format, return: list of movie titles
     {
       "UpstreamPathTemplate": "/api/customer/{customerId}/watchlist",
       "UpstreamHttpMethod": [ "Get" ],
@@ -68,7 +67,7 @@
     },
 
     {
-      "UpstreamPathTemplate": "/api/watchlist", // should this be corrected?? take id in url not in body?
+      "UpstreamPathTemplate": "/api/watchlist", // TODO: correct if time
       "UpstreamHttpMethods": [ "Post" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -81,9 +80,6 @@
     },
 
 
-
-
-    // Next Service can be added below
     // Movies
     {
       "UpstreamPathTemplate": "/api/movies",
@@ -122,7 +118,6 @@
       "DownstreamPathTemplate": "/api/movies/{movieId}"
     },
 
-    // Next Service can be added below
     // Bills
     {
       "UpstreamPathTemplate": "/api/customer/{customerId}/bills",

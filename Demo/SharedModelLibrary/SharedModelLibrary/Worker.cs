@@ -54,11 +54,9 @@ namespace SharedModelLibrary
                 var inBody = ea.Body.ToArray();
                 var inMessage = Encoding.UTF8.GetString(inBody);
 
-                // publish result on returned-queueName and keep listening for more messages
                 var outMessage = _controller.MessageReceived(inMessage);
                 var outBody = Encoding.UTF8.GetBytes(outMessage.Item2);
 
-                //Thread.Sleep(2000);
                 channel.BasicPublish(exchange: "", routingKey: outMessage.Item1, basicProperties: null, body: outBody);
 
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);

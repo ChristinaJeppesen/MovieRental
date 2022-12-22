@@ -195,34 +195,6 @@ namespace CustomerMicroService.Services
             return result;
         }
  
-
-
-        /*
-
-        [HttpPost(Name = "AddCustomer")]
-        public void AddCustomer([FromBody] Customer customer)
-        {
-            using (var conn = new NpgsqlConnection(connString))
-            {
-                Console.Out.WriteLine("Opening connection");
-                conn.Open();
-
-                using (var command = new NpgsqlCommand("INSERT INTO customers (id, name, email) VALUES (@id1, @t1, @t2)", conn))
-                {
-                    Guid uuid = Guid.NewGuid();
-
-                    command.Parameters.AddWithValue("id1", uuid);
-                    command.Parameters.AddWithValue("t1", customer.name);
-                    command.Parameters.AddWithValue("t2", customer.email);
-
-
-                    int nRows = command.ExecuteNonQuery();
-                    Console.Out.WriteLine(String.Format("Number of rows inserted={0}", nRows));
-                }
-            }
-
-        }
-        */
     }
 }
 

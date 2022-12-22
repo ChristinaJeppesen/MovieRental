@@ -5,8 +5,6 @@ namespace SharedModelLibrary
 {
     public class HistoryItem
     {
-        //Guid CustomerId { get; set; }
-
         public int MovieId { get; set; }
 
         public string? Title { get; set; }

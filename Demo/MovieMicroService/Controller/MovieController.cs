@@ -52,7 +52,6 @@ namespace MovieMicroService.Controller
                 List<HistoryItem> movieIdList = JsonSerializer.Deserialize<List<HistoryItem>>(movieMessage.Arguments);
                 response = _movieService.ConstructHistoryList(_config, movieIdList);
             }
-
             
             return (movieMessage.PublishQueueName, JsonSerializer.Serialize(response));
         }

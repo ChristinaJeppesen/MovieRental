@@ -48,7 +48,6 @@ namespace BillMicroService.Controller
                 response =_billService.UpdateCustomerBill(_config, bill);
 
             }
-            //string restlist = JsonSerializer.Serialize(response);
 
             return (message.PublishQueueName, JsonSerializer.Serialize(response));
         }

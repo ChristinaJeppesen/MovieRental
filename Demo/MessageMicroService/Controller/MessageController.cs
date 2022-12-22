@@ -18,19 +18,16 @@ namespace MessageMicroService.Controller
         private readonly IConfiguration _config;
         private readonly ILogger<IMessageService> _logger;
         private readonly IMessageService _messageService;
-        //private readonly IMessageCustomer _messageCustomer;
 
-
-        public MessageController(ILogger<IMessageService> logger, IConfiguration config, IMessageService messageService)//, IMessageCustomer messageCustomer)
+        public MessageController(ILogger<IMessageService> logger, IConfiguration config, IMessageService messageService)
         {
             _logger = logger;
             _config = config;
             _messageService = messageService;
-            //_messageCustomer = messageCustomer;
         }
 
-        [HttpGet("movies")] // how about promise??????
-        public async Task<List<Movie>> GetAllMovies() //await not working unless async function
+        [HttpGet("movies")] 
+        public async Task<List<Movie>> GetAllMovies() 
         {
             _messageService.GetAllMovieList();
 
@@ -39,8 +36,8 @@ namespace MessageMicroService.Controller
             return JsonConvert.DeserializeObject<List<Movie>>(await movieMessageResponse);
 
         }
-        [HttpGet("movies/browse/{pattern}")]  // how about promise??????
-        public async Task<List<Movie>> GetFilteredMovies(string pattern) //await not working unless async function
+        [HttpGet("movies/browse/{pattern}")]  
+        public async Task<List<Movie>> GetFilteredMovies(string pattern) 
         {
             Console.WriteLine(pattern);
             _messageService.GetFilteredMovieList(pattern);
@@ -51,8 +48,8 @@ namespace MessageMicroService.Controller
         }
 
 
-        [HttpGet("movies/{movieId}")]  // how about promise??????
-        public async Task<List<Movie>> GetMovie(int movieId) //await not working unless async function
+        [HttpGet("movies/{movieId}")]  
+        public async Task<List<Movie>> GetMovie(int movieId) 
         {
             _messageService.GetMovieById(movieId);
 
@@ -62,8 +59,8 @@ namespace MessageMicroService.Controller
         }
 
 
-        [HttpPut("customer/info/")] // how about promise??????
-        public async Task<int> UpdateCustomerInformation([FromBody] Customer customer) //await not working unless async function
+        [HttpPut("customer/info/")] 
+        public async Task<int> UpdateCustomerInformation([FromBody] Customer customer) 
         {
             Console.WriteLine("Endpoint reached");
             _messageService.UpdateCustomerInformation(customer);
@@ -74,8 +71,8 @@ namespace MessageMicroService.Controller
 
         }
 
-        [HttpGet("customers")] // how about promise??????
-        public async Task<List<Customer>> GetCustomers() //await not working unless async function
+        [HttpGet("customers")] 
+        public async Task<List<Customer>> GetCustomers() 
         {
             Console.WriteLine("Endpoint reached");
             _messageService.GetAllCustomers();

@@ -23,9 +23,7 @@ builder.Services.AddDbContext<MovieDBContext>(options => {
 });
 
 
-//builder.Services.AddSingleton<IMovieService, Service>(); //  created the first time they are requested
-
-builder.Services.AddSingleton<IMovieService, MovieService>(); // once per request
+builder.Services.AddSingleton<IMovieService, MovieService>(); 
 builder.Services.AddSingleton<MovieController>();
 builder.Services.AddHostedService<MovieWorker>(sp =>
 {
@@ -34,7 +32,6 @@ builder.Services.AddHostedService<MovieWorker>(sp =>
     return new MovieWorker(customerController, "movies");
 
 });
-//builder.Services.AddTransient<IMovieService, Service>(); // no difference?
 
 builder.Services.AddControllers();
 

@@ -42,12 +42,8 @@ namespace MessageMicroService.Services
                                      autoAck: true,
                                      consumer: consumer);
 
-                //Console.WriteLine(" Press [enter] to exit.");
-                //Console.ReadLine();
                 channel.BasicCancel(tag);
-            }
-            //System.Threading.Thread.Sleep(2000);
-            
+            } 
             return messageRes;
         }
     }

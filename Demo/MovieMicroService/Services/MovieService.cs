@@ -120,7 +120,6 @@ namespace MovieMicroService.Services
                     var reader = command.ExecuteReader();
                     reader.Read();
 
-                    // make constructer?
                     Movie movie = new()
                     {
                         Id = reader.GetInt32(0),
@@ -184,9 +183,8 @@ namespace MovieMicroService.Services
             var movieList = GetMovieTitles(config, movieidList);
 
             var result = new List<HistoryItem>();
-            //var res = titles.ToDictionary(x => x.Item1, x => x.Item2);
 
-            foreach (HistoryItem item in history)
+            foreach (HistoryItem item in history) //TODO: change if time
             {
                 foreach (var movie in movieList)
                 {
