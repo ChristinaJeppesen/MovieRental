@@ -130,38 +130,6 @@
         }
       ],
       "DownstreamPathTemplate": "/api/customer/{customerId}/bills"
-    },
-
-
-    // not used
-    {
-      "UpstreamPathTemplate": "/api/user/{userId}/bills",
-      "UpstreamHttpMethods": [ "Put" ],
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "messagemicroservice",
-          "Port": 80
-        }
-      ],
-      "DownstreamPathTemplate": "/api/user/{userId}/bills"
-    },
-
-
-
-    // Next Service can be added below
-
-    {
-      "UpstreamPathTemplate": "/api/test",
-      "UpstreamHttpMethods": [ "Get" ],
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "testsanity",
-          "Port": 80
-        }
-      ],
-      "DownstreamPathTemplate": "/api/test"
     }
 
 

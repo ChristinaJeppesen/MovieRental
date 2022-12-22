@@ -61,13 +61,6 @@ services:
       context: .
       dockerfile: MessageMicroService/Dockerfile
 
-  testsanity:
-    container_name: testsanity
-    image: ${DOCKER_REGISTRY-}testsanity
-    build:
-      context: .
-      dockerfile: TestSanity/Dockerfile
-
   moviemicroservice:
     container_name: moviemicroservice
     image: ${DOCKER_REGISTRY-}moviemicroservice
